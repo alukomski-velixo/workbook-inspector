@@ -1,10 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Velixo Workbook Inspector</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233F72E7'/%3E%3Cpath d='M8 9l8 15 8-15' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>:root {
   --font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, Roboto, sans-serif;
   --mono: "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
@@ -50,7 +45,7 @@ button, input, select { font: inherit; color: inherit; }
 a { color: var(--link); }
 code, .mono { font-family: var(--mono); font-size: 12px; }
 
-.app { display: grid; grid-template-columns: 300px 1fr; grid-template-rows: auto 1fr; height: 100vh; }
+.app { display: grid; grid-template-columns: 300px 1fr; grid-template-rows: auto 1fr; height: 100%; }
 header.top { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 10px 18px; background: var(--bg); border-bottom: 1px solid var(--border); }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-weight: 700; font-size: 16px; }
@@ -185,7 +180,7 @@ details.json pre { margin: 0; padding: 10px 12px; max-height: 380px; overflow: a
 .cmp td.b { color: var(--text-2); }
 .cmp td.a { font-weight: 600; }
 
-.toast { position: fixed; bottom: 18px; right: 18px; background: var(--th-bg); color: #fff; padding: 9px 14px; border-radius: 8px; box-shadow: var(--shadow); opacity: 0; transform: translateY(8px); transition: all .2s; pointer-events: none; z-index: 10; }
+.toast { position: fixed; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); right: calc(18px + env(safe-area-inset-right, 0px)); background: var(--th-bg); color: #fff; padding: 9px 14px; border-radius: 8px; box-shadow: var(--shadow); opacity: 0; transform: translateY(8px); transition: all .2s; pointer-events: none; z-index: 10; }
 .toast.on { opacity: 1; transform: none; }
 
 @media (max-width: 900px) {
@@ -321,15 +316,12 @@ header.top { position: relative; z-index: 10; }
 .tbl-more:empty { display: none; }
 .seg.sm button { padding: 3px 9px; font-size: 12px; }
 </style>
-</head>
-<body>
 <div class="app">
   <header class="top">
     <div class="brand"><div class="mark">V</div><div><h1>Workbook Inspector</h1><small>Excel &amp; Velixo workbook checks</small></div></div>
     <div class="spacer"></div>
     <div class="topgroup topactions" id="topActions" hidden></div>
     <div class="topgroup"><span class="lbl">View</span><div class="seg" id="view" title="Simple: workbook details and quick clean. Advanced: full inspector"><button data-v="simple">Simple</button><button data-v="advanced">Advanced</button></div></div>
-    <div class="topgroup"><span class="lbl">Theme</span><div class="seg" id="theme"><button data-t="auto" title="Follow the system setting">Auto</button><button data-t="light" title="Light">&#9728;</button><button data-t="dark" title="Dark">&#9790;</button></div></div>
   </header>
   <aside class="side">
     <div class="sidehead"><span>Workbooks</span><button class="sidetoggle" id="sideToggle" title="Hide panel">&laquo;</button></div>
@@ -337,7 +329,7 @@ header.top { position: relative; z-index: 10; }
     <button class="railadd" id="railAdd" title="Add workbooks (or drop them anywhere)">+</button>
     <input type="file" id="picker" multiple accept=".xlsx,.xlsm,.xltx,.xltm,.xlsb" hidden>
     <div class="files" id="files"></div>
-    <div class="side-foot"><div class="hint">Runs entirely in this page - files are never uploaded.</div></div>
+    <div class="side-foot"><div class="hint">Runs in your browser - files are never uploaded.</div></div>
   </aside>
   <main id="main"></main>
 </div>
@@ -2895,7 +2887,7 @@ header.top { position: relative; z-index: 10; }
 /* UI layer for the Workbook Inspector. */
 (function () {
   const W = window.WBI;
-  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: false, side: true, menu: false, theme: 'auto', seq: 0 };
+  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: false, side: true, menu: false, seq: 0 };
   const $ = (q, el = document) => el.querySelector(q);
   const e = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const n = (x) => Number(x || 0).toLocaleString();
@@ -2906,12 +2898,6 @@ header.top { position: relative; z-index: 10; }
   const volChip = (s) => '<span class="chip ' + (s === 'Always' ? 'bad' : 'warn') + '">' + e(s) + '</span>';
   const colL = W.analyze.helpers.colLetters;
 
-  /* ------------------------------------------------------------ theme */
-  function applyTheme() {
-    if (S.theme === 'auto') document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme', S.theme);
-    document.querySelectorAll('#theme button').forEach((b) => b.classList.toggle('on', b.dataset.t === S.theme));
-  }
 
   function applyMode() { document.body.classList.toggle('simple', !S.advanced); document.querySelectorAll('#view button').forEach((b) => b.classList.toggle('on', (b.dataset.v === 'advanced') === S.advanced)); }
 
@@ -3125,7 +3111,7 @@ header.top { position: relative; z-index: 10; }
     if (!S.advanced) return '<div class="wrap"><div class="empty"><h2>Drop a workbook to inspect it</h2><p>See the workbook\'s details and the functions it uses, or make a copy without Velixo or without formulas. Everything runs in this page - the file is never uploaded and the original is never changed.</p>' +
       '<p class="muted small">Switch <b>View</b> to <b>Advanced</b> (top right) for the full inspector: issues, Velixo detail, performance, links, structure and every clean option.</p></div></div>';
     return '<div class="wrap"><div class="empty"><h2>Drop a workbook to inspect it</h2>' +
-      '<p>Everything runs locally in this page. The file is read in memory and never uploaded, and the original is never modified. Drop several files to compare them or export a combined summary.</p>' +
+      '<p>Everything runs in your browser. The file is read in memory and never uploaded, and the original is never modified. Drop several files to compare them or export a combined summary.</p>' +
       '<div class="grid3">' +
       [['Excel level', 'Sheets and visibility, used ranges, formulas, error values, defined names, tables, pivots, styles, links, protection, document properties and package size.'],
        ['Velixo', 'NX or Classic edition, add-in binding, connections, workbook GUID, last refresh, engine options, Velixo function usage and hidden state sheets.'],
@@ -3856,16 +3842,36 @@ header.top { position: relative; z-index: 10; }
     if (!v.length) return null;
     return v.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))[0];
   }
-  function download(name, data, type) {
-    const blob = data instanceof Blob ? data : new Blob([data], { type });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
-    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-    toast('Downloaded ' + name);
+  // Viewer only saves allowlisted extensions; macro/template workbooks are wrapped in a .zip.
+  const SAVE_OK = /\.(xlsx|csv|json|txt|md|zip|html|pdf)$/i;
+  const dlCap = window.claude && typeof window.claude.use === 'function' ? window.claude.use('downloads') : Promise.resolve(null);
+  async function download(name, data, type) {
+    let bytes = data instanceof Blob ? new Uint8Array(await data.arrayBuffer()) : typeof data === 'string' ? new TextEncoder().encode(data) : data;
+    let fname = name, zipped = false;
+    if (!SAVE_OK.test(fname)) {
+      bytes = await W.zip.writeZip(new Map([[name, bytes]]), [name]);
+      fname = name + '.zip'; zipped = true;
+    }
+    const dl = await dlCap;
+    if (!dl) { toast('Downloads are not available in this view - open the artifact in claude.ai'); return; }
+    try {
+      await dl.save({ filename: fname, data: new Blob([bytes], { type }) });
+      toast(zipped ? 'Saved ' + fname + ' - extract it to get ' + name : 'Saved ' + fname);
+    } catch (err) {
+      const c = err && err.code;
+      if (c === 'declined') toast('Download cancelled');
+      else if (c === 'rate_limited') toast('A save prompt is already open - finish it, then try again');
+      else if (c === 'too_large') toast(fname + ' is too large to save here');
+      else { console.error(err); toast('Could not save ' + fname + (c ? ' (' + c + ')' : '')); }
+    }
   }
   async function copyText(t) {
-    try { await navigator.clipboard.writeText(t); }
-    catch { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-    toast('Ticket summary copied');
+    try { await navigator.clipboard.writeText(t); toast('Copied to clipboard'); return; } catch {}
+    const ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch {}
+    ta.remove();
+    toast(ok ? 'Copied to clipboard' : 'Copy was blocked here - try again, or use the CSV/JSON export');
   }
   let toastT;
   function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2200); }
@@ -3889,12 +3895,11 @@ header.top { position: relative; z-index: 10; }
     $('#railAdd').addEventListener('click', () => input.click());
     document.addEventListener('click', (x) => { if (S.menu && !x.target.closest('.menuwrap')) { S.menu = false; renderTop(); } });
     document.addEventListener('click', (x) => { const c = x.target.closest('[data-copy]'); if (c) { x.stopPropagation(); copyText(c.dataset.copy); } });
-    document.querySelectorAll('#theme button').forEach((b) => b.addEventListener('click', () => { S.theme = b.dataset.t; applyTheme(); }));
-    applyTheme(); renderSide(); renderMain();
+    renderSide(); renderMain();
   }
   window.WBI.ui = { state: S, addFiles };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
-</body>
-</html>
+
+</body></html>
