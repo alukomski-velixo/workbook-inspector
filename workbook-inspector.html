@@ -2238,7 +2238,7 @@ header.top { position: relative; z-index: 10; }
     const SN = R.snapshot || { passwordSheets: [], pivots: [], spillRefs: [] };
     if (SN.wbPassword || SN.passwordSheets.length) add('medium', 'Snapshot', 'Password protection - Snapshot will stop', [SN.wbPassword ? 'Workbook structure' : '', SN.passwordSheets.length ? SN.passwordSheets.length + ' sheet(s): ' + SN.passwordSheets.slice(0, 6).join(', ') : ''].filter(Boolean).join('; ') + '. Remove the password(s) before taking a snapshot.', 'tools', 'tl-snapshot');
     if (SN.pivots.length) add('medium', 'Snapshot', SN.pivots.length + ' pivot cache(s) use data inside this workbook', 'A snapshot breaks the link between the pivot and its source (Microsoft defect) - re-point each pivot\'s data source after the snapshot: ' + SN.pivots.map((x) => x.pivots.join(', ') || 'cache ' + x.cacheId).join('; '), 'tools', 'tl-snapshot');
-    if (SN.spillRefs.length) add('medium', 'Snapshot', SN.spillRefs.length + ' formula(s) / name(s) read a Velixo spill range (A1# / ANCHORARRAY)', 'A Velixo-only snapshot or an "Excel (remove Velixo formulas)" distribution turns the spill into plain values, so these references return #REF!: ' + [...new Set(SN.spillRefs.map((x) => x.sheet + '!' + x.cell))].slice(0, 5).join(', '), 'tools', 'tl-snapshot');
+    if (SN.spillRefs.length) add('low', 'Snapshot', SN.spillRefs.length + ' formula(s) / name(s) read a Velixo spill range (A1# / ANCHORARRAY)', 'A Velixo-only snapshot or an "Excel (remove Velixo formulas)" distribution turns the spill into plain values, so these references return #REF!: ' + [...new Set(SN.spillRefs.map((x) => x.sheet + '!' + x.cell))].slice(0, 5).join(', '), 'tools', 'tl-snapshot');
     const FZ = R.freeze || { sheets: [] };
     if (FZ.total) add('info', 'Freeze', fmtN(FZ.total) + ' frozen Velixo cell(s)', FZ.sheets.filter((x) => x.frozen).map((x) => x.sheet + ' (' + fmtN(x.frozen) + ')').join(', ') + '. Values are stored in the formula; Unfreeze restores the live function.', 'tools', 'tl-freeze');
     const fzNoFlag = FZ.sheets.filter((x) => x.frozen && !x.flag);
@@ -2262,7 +2262,7 @@ header.top { position: relative; z-index: 10; }
       if (VL.refreshPrecedents && VL.cascade.length) add('low', 'Velixo', '"Refresh referenced worksheets" is ON and sheets reference other Velixo sheets', [...new Set(VL.cascade.map((x) => x.from + ' -> ' + x.to))].slice(0, 5).join(', ') + ' - refreshing one sheet also refreshes those it reads from.', 'velixo', 'vx-load');
     }
     const AH = (R.autoHide || []).filter((x) => x.issues.length);
-    if (AH.length) add(AH.some((x) => x.issues.some((i) => i.sev === 'medium')) ? 'medium' : 'low', 'Velixo', AH.length + ' auto-hide range(s) with problems', AH.map((x) => x.sheet + ': ' + x.issues[0].text).slice(0, 3).join(' | '), 'velixo', 'vx-autohide');
+    if (AH.length) add('low', 'Velixo', AH.length + ' auto-hide range(s) with problems', AH.map((x) => x.sheet + ': ' + x.issues[0].text).slice(0, 3).join(' | '), 'velixo', 'vx-autohide');
     // Excel general
     const MC = R.macros || { modules: [], xlmSheets: [] };
     const auto = MC.modules.flatMap((m) => m.events.map((e) => ({ mod: m.name, ...e })));
@@ -3022,7 +3022,8 @@ header.top { position: relative; z-index: 10; }
   const NOTOC = ['summary', 'overview', 'clean'];
   function factsLine(R, f) {
     const vx = R.velixo, fCells = R.sheets.reduce((a, s) => a + (s.stats ? s.stats.formulaCells : 0), 0);
-    return [kb(f.size), vx.isVelixo ? 'Velixo ' + vx.edition + (nxVersion(vx) ? ' ' + nxVersion(vx) : '') : 'No Velixo', n(R.sheets.length) + ' sheet' + (R.sheets.length === 1 ? '' : 's'), n(fCells) + ' formula cell' + (fCells === 1 ? '' : 's'),
+    const hid = R.sheets.filter((s) => s.state !== 'visible' && !W.analyze.isVelixoStateSheet(s.name)).length;
+    return [kb(f.size), vx.isVelixo ? 'Velixo ' + vx.edition + (nxVersion(vx) ? ' ' + nxVersion(vx) : '') : 'No Velixo', n(R.sheets.length) + ' sheet' + (R.sheets.length === 1 ? '' : 's') + (hid ? ' (' + n(hid) + ' Hidden)' : ''), n(fCells) + ' formula cell' + (fCells === 1 ? '' : 's'),
       f.lastModified ? 'file modified ' + new Date(f.lastModified).toLocaleString() : ''].filter(Boolean).map(e).join(' &middot; ');
   }
   const SIMPLE_TABS = [['summary', 'Overview'], ['clean', 'Clean & share']];
@@ -3831,7 +3832,7 @@ header.top { position: relative; z-index: 10; }
           for (const [t, rows] of byText) L.push(tag('medium') + 'Distribution list "' + D.sheet + '" row' + (rows.length > 1 ? 's ' : ' ') + rows.join(', ') + ': ' + t);
         }
       } else if (x.sec === 'vx-autohide') {
-        for (const a of (R.autoHide || []).filter((y) => y.issues.length)) for (const i of a.issues) L.push(tag(i.sev) + 'Auto-hide ' + a.kind.toLowerCase() + ' on "' + a.sheet + '": ' + i.text);
+        for (const a of (R.autoHide || []).filter((y) => y.issues.length)) for (const i of a.issues) L.push(tag(x.sev) + 'Auto-hide ' + a.kind.toLowerCase() + ' on "' + a.sheet + '": ' + i.text);
       } else L.push(tag(x.sev) + x.title);
     }
     return L.join('\n');
