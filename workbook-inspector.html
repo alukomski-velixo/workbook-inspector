@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Velixo Workbook Inspector</title>
+<title>Workbook Inspector Batch 1</title>
 <style>:root {
   --font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, Roboto, sans-serif;
   --mono: "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
@@ -315,6 +315,88 @@ header.top { position: relative; z-index: 10; }
 .tbl-more { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .tbl-more:empty { display: none; }
 .seg.sm button { padding: 3px 9px; font-size: 12px; }
+
+/* ---------- ranked causes ---------- */
+.cz { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; margin-bottom: 14px; }
+.cz > .card { margin-bottom: 0; }
+.cz-side { display: flex; flex-direction: column; gap: 14px; }
+.cz-side > .card { margin-bottom: 0; }
+.cz-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) 150px; gap: 14px; align-items: start; width: 100%; text-align: left; border: 0; background: none; padding: 12px 6px; border-top: 1px solid var(--grid); cursor: pointer; border-radius: 6px; }
+.cz-row:first-of-type { border-top: 0; }
+.cz-row:hover { background: var(--accent-soft); }
+.cz-n { width: 30px; height: 30px; border-radius: 8px; color: #fff; font-weight: 700; display: grid; place-items: center; }
+.cz-t { font-weight: 600; font-size: 14px; color: var(--emph); }
+.cz-e { color: var(--text-2); margin: 2px 0; }
+.cz-bar { height: 8px; border-radius: 4px; background: var(--bg-neutral); overflow: hidden; }
+.cz-bar > i { display: block; height: 100%; border-radius: 4px; }
+.cz-m { font-size: 11px; color: var(--text-2); margin-top: 4px; }
+.cz-when { display: grid; grid-template-columns: 130px minmax(0, 1fr) 22px; gap: 10px; align-items: center; margin: 7px 0; }
+.cz-when .lb { color: var(--text-2); }
+.cz-when b { text-align: right; }
+.cz-nums { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.cz-num { background: var(--bg-2); border-radius: 8px; padding: 10px 12px; }
+.cz-num .v { font-size: 22px; font-weight: 300; color: var(--emph); line-height: 1.2; }
+.cz-num .l { font-size: 11px; color: var(--text-2); }
+@media (max-width: 1000px) { .cz { grid-template-columns: 1fr; } .cz-row { grid-template-columns: 30px minmax(0, 1fr); } .cz-row > :last-child { grid-column: 2; } }
+
+/* ---------- volatile route lanes ---------- */
+.lanes { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.lane { display: flex; align-items: stretch; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.lane .lb { flex: none; width: 62px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); align-self: center; }
+.hop { flex: none; max-width: 240px; border: 1px solid var(--border); background: var(--bg-2); border-radius: 8px; padding: 7px 10px; min-width: 0; }
+.hop b { display: block; color: var(--emph); overflow-wrap: anywhere; }
+.hop code { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hop small { display: block; color: var(--text-2); font-size: 11px; }
+.hop.src { border: 2px solid var(--bad); background: var(--bad-soft); }
+.hop.vx { border: 2px solid var(--purple); background: var(--purple-soft); flex: 1 1 260px; max-width: none; }
+.hop.nm { border-style: dashed; }
+.lane .arr { flex: none; align-self: center; color: var(--text-2); font-size: 16px; }
+.lane-key { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--text-2); }
+.lane-key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -2px; }
+
+/* ---------- settings ---------- */
+.gear { width: 34px; height: 34px; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 8px; cursor: pointer; display: grid; place-items: center; }
+.gear:hover, .gear.on { border-color: var(--accent); color: var(--accent); }
+.setpanel { position: absolute; right: 18px; top: calc(100% + 6px); z-index: 30; width: min(880px, calc(100vw - 36px)); max-height: calc(100vh - 90px); overflow: auto; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); padding: 14px 16px; }
+.setpanel[hidden] { display: none; }
+.sethead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.sethead h2 { margin: 0; font-size: 15px; font-weight: 600; color: var(--emph); flex: 1; }
+.setcols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.setcols h3 { margin: 0 0 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); }
+.setrow { display: flex; align-items: center; gap: 10px; min-height: 40px; border-bottom: 1px solid var(--grid); width: 100%; text-align: left; background: none; border-left: 0; border-right: 0; border-top: 0; padding: 4px 0; }
+button.setrow { cursor: pointer; }
+.setrow > span:first-child, .setrow > label { flex: 1; min-width: 0; }
+.setrow small { display: block; color: var(--text-2); font-size: 11px; }
+.setrow input[type=number] { width: 104px; text-align: right; border: 1px solid var(--border); background: var(--bg-2); border-radius: 7px; padding: 5px 7px; }
+.setrow select { border: 1px solid var(--border); background: var(--bg-2); border-radius: 7px; padding: 5px 7px; }
+.sw { flex: none; width: 38px; height: 22px; border-radius: 11px; background: var(--neutral); padding: 2px; box-sizing: border-box; display: flex; }
+.sw > i { width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .12s; }
+[aria-pressed="true"] > .sw { background: var(--accent); }
+[aria-pressed="true"] > .sw > i { transform: translateX(16px); }
+.setnote { color: var(--text-2); font-size: 11px; margin-top: 8px; }
+
+/* ---------- root-cause cards ---------- */
+.ov-pill.sm { padding: 4px 10px; font-weight: 500; font-size: 12px; border-radius: 999px; }
+.ov-pill.sel { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.rc { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px; }
+.rc-h { display: flex; align-items: center; gap: 10px; padding: 12px 14px; flex-wrap: wrap; }
+.rc-h b { color: var(--emph); font-size: 14px; flex: 1; min-width: 200px; }
+.rc-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border-top: 1px solid var(--divider); }
+.rc-3 > div { padding: 10px 14px; border-right: 1px solid var(--grid); }
+.rc-3 h4 { margin: 0 0 3px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); }
+.rc .ov-list { box-shadow: none; border-radius: 0; border-width: 1px 0 0; }
+
+/* ---------- sheet heatmap ---------- */
+table.heat { border-collapse: separate; border-spacing: 4px; width: 100%; font-size: 12px; }
+table.heat th { text-align: right; font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; vertical-align: bottom; }
+table.heat th:first-child, table.heat td:first-child { text-align: left; }
+table.heat td { padding: 9px 8px; text-align: right; border-radius: 6px; background: var(--bg-2); color: var(--text-2); }
+table.heat td:first-child { background: none; color: var(--emph); font-weight: 600; overflow-wrap: anywhere; }
+table.heat td.h1 { background: var(--accent-soft); color: var(--text); }
+table.heat td.h2 { background: #7C9CEB; color: #0F1733; font-weight: 600; }
+table.heat td.h3 { background: #1F3F8F; color: #fff; font-weight: 600; }
+.heat-key { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; font-size: 12px; color: var(--text-2); }
+.heat-key i { display: inline-block; width: 36px; height: 12px; border-radius: 3px; }
 </style>
 <div class="app">
   <header class="top">
@@ -322,6 +404,8 @@ header.top { position: relative; z-index: 10; }
     <div class="spacer"></div>
     <div class="topgroup topactions" id="topActions" hidden></div>
     <div class="topgroup"><span class="lbl">View</span><div class="seg" id="view" title="Simple: workbook details and quick clean. Advanced: full inspector"><button data-v="simple">Simple</button><button data-v="advanced">Advanced</button></div></div>
+    <button class="gear" id="gear" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="setpanel" id="settings" hidden></div>
   </header>
   <aside class="side">
     <div class="sidehead"><span>Workbooks</span><button class="sidetoggle" id="sideToggle" title="Hide panel">&laquo;</button></div>
@@ -751,6 +835,18 @@ header.top { position: relative; z-index: 10; }
     DETAIL_CAP: 5000, HIDDEN_SHEET_CELL_CAP: 400,
     FROZEN_LONG: Math.floor(8192 * 0.8), HIDDEN_NAMES_GUIDE: 10000, HEAVY_SHEET_FORMULAS: 30000, HEAVY_VELIXO_CELLS: 50000,
     AUTOHIDE_BIG_ROWS: 100000, DATA_MODEL_WARN: 20 * 1024 * 1024, EMBED_WARN: 1024 * 1024,
+    DEP_CELL_CAP: 600000, VOL_SET_CAP: 500000, BIG_SPILL_CELLS: 100000, GI_REPEAT: 10, DRAWING_OBJECTS_WARN: 500,
+    DV_RULES_WARN: 1000, DV_FRAGMENT_AREAS: 20, EMPTY_STYLED_WARN: 50000, SHEET_XML_CACHE_CHARS: 64e6,
+  };
+  // Native functions that are expensive in volume: [min cells before it is worth a mention, why].
+  const COSTLY = {
+    SUMPRODUCT: [500, 'Array-evaluates every argument on each call - slow over long or whole-column ranges. SUMIFS is usually far faster.'],
+    VLOOKUP: [5000, 'Exact-match lookups scan the range top-down on each call.'], HLOOKUP: [5000, 'Exact-match lookups scan the range on each call.'],
+    MATCH: [5000, 'Exact-match lookups scan the range top-down on each call.'], XLOOKUP: [5000, 'Default exact match scans the range on each call.'],
+    COUNTIF: [5000, 'Each call scans its whole range.'], COUNTIFS: [5000, 'Each call scans its whole range.'], SUMIF: [5000, 'Each call scans its whole range.'],
+    SUMIFS: [10000, 'Each call scans its ranges - fine singly, adds up in volume over long ranges.'], AVERAGEIFS: [5000, 'Each call scans its ranges.'],
+    CUBEVALUE: [200, 'Each call queries the data model / OLAP source.'], CUBEMEMBER: [200, 'Each call queries the data model / OLAP source.'],
+    WEBSERVICE: [1, 'Network call during calculation.'], STOCKHISTORY: [1, 'Network call during calculation.'],
   };
   const AUTO_CALC = ['auto', 'automatic', 'autoNoTable'];
 
@@ -844,15 +940,16 @@ header.top { position: relative; z-index: 10; }
     wholeCol: /(?<![A-Za-z0-9_$.])\$?([A-Z]{1,3})\$?:\$?([A-Z]{1,3})\$?(?![A-Za-z0-9_$.(])/gi,
     wholeRow: /(?<![A-Za-z0-9_$.:])\$?(\d{1,7})\$?:\$?(\d{1,7})\$?(?![A-Za-z0-9_$.:])/g,
     rangeGate: /(?<![A-Za-z0-9_$.])(\$?[A-Z]{1,3}\$?:|\$?\d{1,7}\$?:)/i,
-    extRef: /\[\d+\]/,
+    // [n] only counts as an external-link index when a sheet name and ! follow it (so Table1[2024] is not a link).
+    ext: /'\[(\d+)\](?:[^']|'')*'!|(?<![A-Za-z0-9_\]@])\[(\d+)\][A-Za-z0-9_.\u00C0-\uFFFF]*!/g,
+    // Run on the string with quoted sheet names blanked ('....'), so text inside a sheet name is never read as a cell.
+    cellRef: /(?<![A-Za-z0-9_.$\]#!'])(?:(?:'(\.*)'|([A-Za-z_\u00C0-\uFFFF][\w.\u00C0-\uFFFF]*))!)?(\$?)([A-Z]{1,3})(\$?)(\d{1,7})(?::(\$?)([A-Z]{1,3})(\$?)(\d{1,7}))?(?![A-Za-z0-9_(\[!'])/g,
+    ident: /(?<![A-Za-z0-9_.!'\]\\])[A-Za-z_\\][A-Za-z0-9_.\\]*(?![A-Za-z0-9_.(!\[])/g,
     spill: new RegExp('(?<![A-Za-z0-9_.\\]#])' + REFSH + '\\$?([A-Z]{1,3})\\$?(\\d+)#', 'gi'),
     anchor: new RegExp('ANCHORARRAY\\(\\s*' + REFSH + '\\$?([A-Z]{1,3})\\$?(\\d+)\\s*\\)', 'gi'),
     sheetRef: new RegExp('(?<![A-Za-z0-9_.\\]#])' + REFSH.slice(3, -2), 'g'),
   };
   const FROZEN_RX = /^\s*IF\s*\(\s*VelixoFormulasAreFrozen\s*,/i;
-  const VOL_RX = {};
-  for (const fn of Object.keys(CATALOGUE)) VOL_RX[fn] = new RegExp('(?<![A-Za-z0-9_.])' + fn + '\\s*\\(', 'gi');
-  const VOL_PRE = new RegExp('(' + Object.keys(CATALOGUE).join('|') + ')\\s*\\(', 'i');
 
   function classifyCall(raw) {
     let r = raw, prefixes = [];
@@ -902,15 +999,22 @@ header.top { position: relative; z-index: 10; }
   }
 
   /* Analyse one formula text (without leading '='). Cached by text. */
+  const WHOLE_ARRAY = new Set(['SUMPRODUCT', 'MMULT', 'TRANSPOSE', 'FREQUENCY', 'FILTER', 'SORT', 'SORTBY', 'UNIQUE']);
+  const WHOLE_CLS = ['native', 'array', 'addin'];
   function makeFormulaAnalyzer(ctx) {
     const cache = new Map();
     return function analyze(text) {
       let a = cache.get(text);
       if (a) return a;
-      const s1 = scrubStrings(text);
-      a = { calls: [], volatile: [], velixo: false, velixoFns: [], firstArgs: [], giNames: [], whole: null, extRef: false, viaNames: [], giNoFilter: [], spill: [], sheetRefs: [], frozen: FROZEN_RX.test(text) };
+      let maxLit = 0;
+      // sq: text literals blanked. s1: quoted sheet names blanked too. Both keep the original length, so indexes line up.
+      const sq = text.indexOf('"') < 0 ? text : text.replace(/"(?:[^"]|"")*"/g, (m) => { if (m.length - 2 > maxLit) maxLit = m.length - 2; return '"' + '.'.repeat(Math.max(0, m.length - 2)) + '"'; });
+      const s1 = sq.indexOf("'") < 0 ? sq : sq.replace(/'(?:[^']|'')*'/g, (m) => "'" + '.'.repeat(Math.max(0, m.length - 2)) + "'");
+      let s2c = null; const s2 = () => (s2c == null ? (s2c = stripPrefixes(s1)) : s2c);
+      a = { text, calls: [], uniq: [], volatile: [], volAlways: null, velixo: false, velixoFns: [], firstArgs: [], giNames: [], giFetch: [], whole: null, wholeCls: null, wholeIn: null, extRef: false,
+        viaNames: [], giNoFilter: [], spill: [], sheetRefs: [], refs: [], maxLit, depth: 0, frozen: FROZEN_RX.test(text) };
       // function calls
-      const customSpans = [];
+      const customSpans = [], callPos = [], volHits = new Map(), uq = new Map();
       RX.call.lastIndex = 0;
       let m;
       while ((m = RX.call.exec(s1))) {
@@ -918,7 +1022,10 @@ header.top { position: relative; z-index: 10; }
         if (c.cat === 'lambda') continue;
         if (ctx.lambdaNames.has(c.name)) c.cat = 'lambda';
         a.calls.push(c);
+        const u = uq.get(c.name); if (u) u.n++; else uq.set(c.name, { c, n: 1 });
         const open = m.index + m[0].length - 1;
+        callPos.push({ name: c.name, cat: c.cat, open, end: -1 });
+        if (c.cat === 'native' && Object.prototype.hasOwnProperty.call(CATALOGUE, c.name)) { const l = volHits.get(c.name); if (l) l.push(m.index); else volHits.set(c.name, [m.index]); }
         if (c.cat === 'velixo' || c.cat === 'addin' || c.cat === 'udf') {
           customSpans.push({ name: c.name, start: open, end: argSpan(s1, open) });
         }
@@ -927,6 +1034,7 @@ header.top { position: relative; z-index: 10; }
           a.velixoFns.push(c.name);
           if (GI_FUNCTIONS.includes(c.name)) {
             const ga = topArgs(text, s1, open, 3); const gm = ga[1] && /^"(.*)"$/.exec(ga[1]); if (gm) a.giNames.push(gm[1]);
+            if (c.name === 'GI' && gm) a.giFetch.push(gm[1]);
             if (c.name === 'GI' && (ga[2] == null || ga[2] === '' || ga[2] === '""')) a.giNoFilter.push(gm ? gm[1] : ga[1] || '?');
           }
           if (NO_CONNECTION_ARG.includes(c.category)) continue;
@@ -935,55 +1043,85 @@ header.top { position: relative; z-index: 10; }
           a.firstArgs.push({ fn: c.name, arg: fa });
         }
       }
-      // volatile functions
-      if (VOL_PRE.test(s1)) {
-        const s2 = stripPrefixes(s1);
-        for (const fn in CATALOGUE) {
-          const rx = VOL_RX[fn]; rx.lastIndex = 0;
-          const found = [...s2.matchAll(rx)];
-          if (!found.length) continue;
-          if (ctx.alwaysOnly && CATALOGUE[fn].sev !== 'Always') continue;
-          let inside = null;
-          for (const f of found) {
-            for (const sp of customSpans) if (f.index > sp.start && f.index < sp.end) { inside = sp.name; break; }
-            if (inside) break;
-          }
-          let arg = null;
-          if (fn === 'CELL' || fn === 'INFO') {
-            const am = new RegExp('(?<![A-Za-z0-9_.])' + fn + '\\s*\\(\\s*"([^"]*)"', 'i').exec(text);
-            if (am) arg = am[1];
-          }
-          a.volatile.push({ fn, sev: CATALOGUE[fn].sev, calls: found.length, inside, arg });
+      a.uniq = [...uq.values()];
+      const insideOf = (idx) => { for (const sp of customSpans) if (idx > sp.start && idx < sp.end) return sp.name; return null; };
+      // volatile functions (from the calls already found)
+      if (volHits.size) for (const fn in CATALOGUE) {
+        const found = volHits.get(fn);
+        if (!found) continue;
+        if (ctx.alwaysOnly && CATALOGUE[fn].sev !== 'Always') continue;
+        let inside = null;
+        for (const idx of found) { inside = insideOf(idx); if (inside) break; }
+        let arg = null;
+        if (fn === 'CELL' || fn === 'INFO') {
+          const am = new RegExp('(?<![A-Za-z0-9_.])' + fn + '\\s*\\(\\s*"([^"]*)"', 'i').exec(text);
+          if (am) arg = am[1];
         }
+        a.volatile.push({ fn, sev: CATALOGUE[fn].sev, calls: found.length, inside, arg });
+        if (CATALOGUE[fn].sev === 'Always' && !a.volAlways) a.volAlways = fn;
       }
       // volatile via defined names
       if (ctx.volNameRx) {
-        const s2 = stripPrefixes(s1);
-        const seen = new Set();
-        ctx.volNameRx.lastIndex = 0;
-        for (const nm of s2.matchAll(ctx.volNameRx)) {
+        const seen = new Map();
+        for (const nm of s2().matchAll(ctx.volNameRx)) {
           const key = nm[1].toUpperCase();
-          if (seen.has(key)) continue; seen.add(key);
+          const inside = insideOf(nm.index);
+          const prev = seen.get(key);
+          if (prev) { if (inside && !prev.inside) prev.inside = inside; continue; }
           const fns = ctx.volNameMap.get(key);
-          if (fns) a.viaNames.push({ name: ctx.volNameDisplay.get(key), fns: [...fns] });
+          if (!fns) continue;
+          const e = { name: ctx.volNameDisplay.get(key), fns: [...fns], inside };
+          seen.set(key, e); a.viaNames.push(e);
+          if (!a.volAlways) { const af = e.fns.find((f) => CATALOGUE[f].sev === 'Always'); if (af) a.volAlways = af + ' via ' + e.name; }
         }
       }
-      // whole column / row (deep)
+      // whole column / row (deep), with the function it is used in
       if (ctx.deep && s1.indexOf(':') >= 0 && RX.rangeGate.test(s1)) {
-        const s2 = stripPrefixes(s1);
-        const refs = new Set();
-        for (const w of s2.matchAll(RX.wholeCol)) refs.add(w[0]);
-        for (const w of s2.matchAll(RX.wholeRow)) refs.add(w[0]);
-        if (refs.size) a.whole = [...refs].sort().join(', ');
+        const refs = new Set(), used = new Set(); let rank = -1;
+        const note = (w) => {
+          refs.add(w[0]);
+          let r = 0, by = null;
+          for (const cp of callPos) {
+            if (cp.open > w.index) break;
+            if (cp.end < 0) cp.end = argSpan(s1, cp.open);
+            if (cp.end <= w.index) continue;
+            const k = cp.cat === 'velixo' || cp.cat === 'addin' || cp.cat === 'udf' ? 2 : WHOLE_ARRAY.has(cp.name) ? 1 : 0;
+            if (k >= r) { r = k; by = cp.name; }
+          }
+          if (r > rank) { rank = r; used.clear(); }
+          if (r === rank && by) used.add(by);
+        };
+        for (const w of s2().matchAll(RX.wholeCol)) note(w);
+        for (const w of s2().matchAll(RX.wholeRow)) note(w);
+        if (refs.size) { a.whole = [...refs].sort().join(', '); a.wholeCls = WHOLE_CLS[rank]; a.wholeIn = [...used].join(', '); }
       }
       if (text.indexOf('!') >= 0 || text.indexOf('#') >= 0 || /ANCHORARRAY/i.test(text)) {
-        const sq = text.indexOf('"') >= 0 ? text.replace(/"(?:[^"]|"")*"/g, (m) => '"' + '.'.repeat(Math.max(0, m.length - 2)) + '"') : text;
         const sh = (q, u) => (q ? q.replace(/''/g, "'") : u || null);
         for (const m of sq.matchAll(RX.spill)) a.spill.push({ sheet: sh(m[1], m[2]), cell: (m[3] + m[4]).toUpperCase() });
         for (const m of sq.matchAll(RX.anchor)) a.spill.push({ sheet: sh(m[1], m[2]), cell: (m[3] + m[4]).toUpperCase() });
         const seen = new Set(); for (const m of sq.matchAll(RX.sheetRef)) { const n = sh(m[1], m[2]); if (n && !seen.has(n)) { seen.add(n); a.sheetRefs.push(n); } }
       }
-      if (RX.extRef.test(s1)) { a.extRef = true; a.extIdx = [...new Set([...s1.matchAll(/\[(\d+)\]/g)].map((m) => +m[1]))]; }
+      if (sq.indexOf('[') >= 0) {
+        const ix = new Set(); for (const x of sq.matchAll(RX.ext)) ix.add(+(x[1] || x[2]));
+        if (ix.size) { a.extRef = true; a.extIdx = [...ix]; }
+      }
+      // cell / range references (for volatile-precedent tracing)
+      if (/[A-Z]\$?\d/.test(s1)) {
+        RX.cellRef.lastIndex = 0; let r;
+        while ((r = RX.cellRef.exec(s1)) && a.refs.length < 40) {
+          let sheet = null;
+          if (r[1] != null) sheet = sq.slice(r.index + 1, r.index + 1 + r[1].length).replace(/''/g, "'"); else if (r[2] != null) sheet = r[2];
+          if (sheet && sheet.charCodeAt(0) === 91) continue;
+          let c1 = colNum(r[4]), r1 = +r[6], c2 = r[8] ? colNum(r[8]) : c1, r2 = r[10] ? +r[10] : r1;
+          if (c1 > XL_MAX_COL || c2 > XL_MAX_COL || r1 < 1 || r2 < 1 || r1 > XL_MAX_ROW || r2 > XL_MAX_ROW) continue;
+          a.refs.push({ s: sheet, c1, r1, c2, r2, ac1: r[3] === '$', ar1: r[5] === '$', ac2: r[8] ? r[7] === '$' : r[3] === '$', ar2: r[10] ? r[9] === '$' : r[5] === '$' });
+        }
+      }
+      if (ctx.nameCells && ctx.nameCells.size) {
+        RX.ident.lastIndex = 0; let r;
+        while ((r = RX.ident.exec(s1)) && a.refs.length < 40) { const nc = ctx.nameCells.get(r[0].toUpperCase()); if (nc) a.refs.push(nc); }
+      }
+      if (s1.length >= 120) { let d = 0, mx = 0; for (let i = 0; i < s1.length; i++) { const ch = s1.charCodeAt(i); if (ch === 40) { if (++d > mx) mx = d; } else if (ch === 41) d--; } a.depth = mx; }
       if (s1.indexOf('#REF!') >= 0) a.refErr = true;
       if (text.indexOf('\\') >= 0 || /"[A-Za-z]:/.test(text)) { const pl = [...text.matchAll(/"((?:[A-Za-z]:\\|\\\\)[^"]*)"/g)].map((m) => m[1]); if (pl.length) a.pathLits = pl; }
       if (cache.size < 200000) cache.set(text, a);
@@ -1086,6 +1224,7 @@ header.top { position: relative; z-index: 10; }
       cfRules: 0, cfBigRules: 0, cfBiggest: '', cfBiggestCells: 0, cfBiggestAreas: 0, cfFragmented: 0,
       dvCount: 0, dvLists: [], refErrCells: 0, maxFormulaLen: 0,
       protectedPassword: false, frozenCells: 0, liveVelixo: 0, frozenMaxLen: 0, frozenLong: 0, outlineRows: [], outlineCols: [],
+      emptyCells: 0, vxCse: 0, maxLitLen: 0, maxDepth: 0, dvFragmented: 0,
     };
     const findings = [], whole = [], velixoCellsSample = [];
     const sd0 = xml.indexOf('<sheetData');
@@ -1113,6 +1252,8 @@ header.top { position: relative; z-index: 10; }
     const sharedCount = new Map();
     const masterInfo = new Map();
     const master = new Map(); // si -> {ref}
+    const masterPos = new Map(); // si -> [col, row]
+    const sIdx = ctx.sheetIdx, depN = ctx.depN, depI = ctx.depI;
     const rx = /<row\b([^>]*?)\/?>|<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g;
     let m, curRow = 0, curCol = 0;
     const analyze = ctx.analyze;
@@ -1134,11 +1275,11 @@ header.top { position: relative; z-index: 10; }
       } else curCol++;
       if (curCol > st.maxCol) st.maxCol = curCol;
       if (curRow > st.maxRow) st.maxRow = curRow;
-      if (!inner) continue;
+      if (!inner) { st.emptyCells++; continue; }
       const fm = inner.indexOf('<f') >= 0 ? /<f\b([^>]*?)(?:\/>|>([\s\S]*?)<\/f>)/.exec(inner) : null;
       const vm = /<v\b[^>]*>([\s\S]*?)<\/v>/.exec(inner);
       const hasIs = inner.indexOf('<is') >= 0;
-      if (!fm && !vm && !hasIs) continue;
+      if (!fm && !vm && !hasIs) { st.emptyCells++; continue; }
       st.cells++;
       if (curRow > st.lastDataRow) st.lastDataRow = curRow;
       if (curCol > st.lastDataCol) st.lastDataCol = curCol;
@@ -1162,7 +1303,7 @@ header.top { position: relative; z-index: 10; }
       if (text.trim()) {
         info = analyze(text);
         isMaster = true;
-        if (ftype === 'shared' && si != null) { masterInfo.set(si, info); master.set(si, cellRef); st.sharedGroups++; }
+        if (ftype === 'shared' && si != null) { masterInfo.set(si, info); master.set(si, cellRef); masterPos.set(si, [curCol, curRow]); st.sharedGroups++; }
         if (ftype === 'array') { st.arrayFormulas++; if (fref) weight = Math.max(1, rangeCellCount(fref)); }
         if (ftype === 'dataTable') st.dataTables++;
       } else if (ftype === 'shared' && si != null) {
@@ -1174,14 +1315,25 @@ header.top { position: relative; z-index: 10; }
         if (info && info.velixo) st.velixoErrors[ev] = (st.velixoErrors[ev] || 0) + 1;
       }
       if (!info) continue;
+      const live = info.velixo && !info.frozen && info.velixoFns.some((fn) => fn !== 'VELIXOTOOLSVERSION');
+      if (info.refs.length || info.volAlways) {
+        if (depI.length < T.DEP_CELL_CAP) {
+          let dc = 0, dr = 0;
+          if (!isMaster) { const mp = masterPos.get(si); if (mp) { dc = curCol - mp[0]; dr = curRow - mp[1]; } }
+          depN.push(sIdx, curCol, curRow, dc, dr, live ? 1 : 0); depI.push(info);
+        } else ctx.depTrunc = true;
+      }
       if (isMaster) {
+        if (live && ftype === 'array' && attrs.indexOf('cm=') < 0) { st.vxCse++; if (ctx.vxCse.length < 500) ctx.vxCse.push({ sheet: ctx.currentSheet, cell: cellRef, range: fref || cellRef, formula: '=' + text }); }
+        if (info.maxLit > st.maxLitLen) st.maxLitLen = info.maxLit;
+        if (info.depth > st.maxDepth) st.maxDepth = info.depth;
         if (info.velixo && ftype === 'array') ctx.vxAnchors.set(ctx.currentSheet + '!' + cellRef, fref || cellRef);
         if (info.spill.length && !info.velixo && ctx.spillUses.length < T.DETAIL_CAP) ctx.spillUses.push({ where: 'Cell formula', sheet: ctx.currentSheet, cell: cellRef, refs: info.spill, formula: '=' + text, cells: weight });
         if (info.sheetRefs.length) { let d = ctx.sheetDeps.get(ctx.currentSheet); if (!d) ctx.sheetDeps.set(ctx.currentSheet, (d = new Set())); for (const r of info.sheetRefs) d.add(r); }
         if (info.giNoFilter.length && !info.frozen && ctx.giNoFilter.length < T.DETAIL_CAP) ctx.giNoFilter.push({ sheet: ctx.currentSheet, cell: cellRef, gis: info.giNoFilter, spill: ftype === 'array' ? fref : null, formula: '=' + text });
       }
       if (info.frozen) { st.frozenCells++; if (text.length > st.frozenMaxLen) st.frozenMaxLen = text.length; if (text.length >= T.FROZEN_LONG) st.frozenLong++; }
-      else if (info.velixo && info.velixoFns.some((fn) => fn !== 'VELIXOTOOLSVERSION')) st.liveVelixo++;
+      else if (live) st.liveVelixo++;
       if (info.velixo) {
         st.velixoCells++;
         if (!vm && !hasIs) st.velixoNoValue++;
@@ -1191,6 +1343,7 @@ header.top { position: relative; z-index: 10; }
           velixoArgs.set(k, (velixoArgs.get(k) || 0) + 1);
         }
         for (const g of info.giNames) ctx.giUsed.add(g.toUpperCase());
+        if (live) for (const g of info.giFetch) ctx.giCalls.set(g, (ctx.giCalls.get(g) || 0) + 1);
         if (isMaster && (info.velixoFns.includes('VELIXOVERSION') || info.velixoFns.includes('VELIXOTOOLSVERSION')) && ctx.versions.length < 20)
           ctx.versions.push({ fn: info.velixoFns.includes('VELIXOVERSION') ? 'VELIXOVERSION' : 'VELIXOTOOLSVERSION', sheet: ctx.currentSheet, cell: cellRef, value: cellValue(attrs, inner, sst) });
       }
@@ -1202,14 +1355,13 @@ header.top { position: relative; z-index: 10; }
       if (info.pathLits && isMaster) for (const pth of info.pathLits) if (ctx.pathLits.length < T.DETAIL_CAP) ctx.pathLits.push({ where: 'Formula text', sheet: ctx.currentSheet, cell: cellRef, path: pth });
       if (text && text.length > st.maxFormulaLen) st.maxFormulaLen = text.length;
       // function usage (per cell)
-      const seenFn = new Set();
-      for (const c of info.calls) {
-        const key = c.name;
-        let u = fnUse.get(key);
-        if (!u) { u = { name: c.name, cat: c.cat, erp: c.erp || null, category: c.category || null, known: c.known, calls: 0, cells: 0, nonVelixoCells: 0, sheets: new Set(), bySheet: {} }; fnUse.set(key, u); }
-        u.calls++;
-        const bs = u.bySheet[sheetName] || (u.bySheet[sheetName] = { calls: 0, cells: 0 }); bs.calls++;
-        if (!seenFn.has(key)) { u.cells++; bs.cells++; if (!info.velixo) u.nonVelixoCells++; u.sheets.add(sheetName); seenFn.add(key); }
+      for (const q of info.uniq) {
+        const c = q.c;
+        let u = fnUse.get(c.name);
+        if (!u) { u = { name: c.name, cat: c.cat, erp: c.erp || null, category: c.category || null, known: c.known, calls: 0, cells: 0, nonVelixoCells: 0, sheets: new Set(), bySheet: {} }; fnUse.set(c.name, u); }
+        u.calls += q.n;
+        const bs = u.bySheet[sheetName] || (u.bySheet[sheetName] = { calls: 0, cells: 0 }); bs.calls += q.n;
+        u.cells++; bs.cells++; if (!info.velixo) u.nonVelixoCells++; u.sheets.add(sheetName);
       }
       if (!isMaster) continue;
       const loc = sheetName + '!' + cellRef;
@@ -1222,10 +1374,11 @@ header.top { position: relative; z-index: 10; }
         for (const fn of vn.fns) {
           if (ctx.alwaysOnly && CATALOGUE[fn].sev !== 'Always') continue;
           findings.push({ area: 'Via defined names', sheet: sheetName, cell: cellRef, fn, sev: CATALOGUE[fn].sev, calls: 1, cells: weight,
-            inside: null, arg: null, via: vn.name, si: ftype === 'shared' ? si : null, formula: '=' + text, note: null });
+            inside: vn.inside || null, arg: null, via: vn.name, si: ftype === 'shared' ? si : null, formula: '=' + text, note: null });
         }
       }
-      if (info.whole) whole.push({ sheet: sheetName, cell: cellRef, refs: info.whole, formula: '=' + text, cells: weight, si: ftype === 'shared' ? si : null });
+      if (info.whole) { const arr = ftype === 'array' && info.wholeCls === 'native' && attrs.indexOf('cm=') < 0;
+        whole.push({ sheet: sheetName, cell: cellRef, refs: info.whole, cls: arr ? 'array' : info.wholeCls, usedIn: arr ? 'array formula (Ctrl+Shift+Enter)' : info.wholeIn || '', formula: '=' + text, cells: weight, si: ftype === 'shared' ? si : null }); }
     }
     // shared formula blast radius
     for (const f of findings) if (f.si != null && sharedCount.has(f.si)) { f.cells = sharedCount.get(f.si); f.note = 'shared by ' + f.cells.toLocaleString() + ' cells'; }
@@ -1258,6 +1411,7 @@ header.top { position: relative; z-index: 10; }
       const inner = dv[2] || '';
       if (!sq) { const x = /<(?:\w+:)?sqref>([\s\S]*?)<\/(?:\w+:)?sqref>/.exec(inner); sq = x ? x[1].trim() : ''; }
       const type = attr(dv[1], 'type');
+      if (areaCount(sq) >= T.DV_FRAGMENT_AREAS) st.dvFragmented++;
       for (const fx of inner.matchAll(/<(?:\w+:)?formula[12]\b[^>]*>([\s\S]*?)<\/(?:\w+:)?formula[12]>/g)) {
         const ftxt = innerText(fx[1]).trim();
         if (!ftxt) continue;
@@ -1271,6 +1425,7 @@ header.top { position: relative; z-index: 10; }
   }
 
   function noteOther(ctx, a, where, range, formula) {
+    if (a.velixo && !a.frozen && ctx.vxElsewhere.length < 500) ctx.vxElsewhere.push({ where, sheet: ctx.currentSheet, cell: range, fns: [...new Set(a.velixoFns)].join(', '), formula });
     if (a.spill.length && !a.velixo && ctx.spillUses.length < T.DETAIL_CAP) ctx.spillUses.push({ where, sheet: ctx.currentSheet, cell: range, refs: a.spill, formula, cells: 0 });
     for (const ix of a.extIdx || []) { const u = ctx.extUse.get(ix) || { cells: 0, sheets: new Set(), sample: null }; u.other = (u.other || 0) + 1; u.sheets.add(ctx.currentSheet); ctx.extUse.set(ix, u); }
     if (a.refErr && ctx.refErrs.length < T.DETAIL_CAP) ctx.refErrs.push({ where, sheet: ctx.currentSheet, cell: range, formula, cells: 0 });
@@ -1296,7 +1451,7 @@ header.top { position: relative; z-index: 10; }
      Velixo (port of velixo_workbook_tool.py inspect)
      ====================================================================== */
   async function readVelixoAddin(pkg) {
-    const out = { addin: null, workbookId: null, connections: [], nxOptions: {}, workbookOptions: {}, persist: [], taskpane: false, webextParts: [], giOptions: [], cacheUsers: [], taskpaneState: null };
+    const out = { addin: null, others: [], workbookId: null, connections: [], nxOptions: {}, workbookOptions: {}, persist: [], taskpane: false, webextParts: [], giOptions: [], cacheUsers: [], taskpaneState: null };
     const webexts = pkg.names().filter((n) => /^xl\/webextensions\/webextension\d*\.xml$/i.test(n));
     out.webextParts = pkg.names().filter((n) => /^xl\/webextensions\//i.test(n));
     out.taskpane = pkg.names().some((n) => /^xl\/webextensions\/taskpanes\.xml$/i.test(n));
@@ -1304,8 +1459,13 @@ header.top { position: relative; z-index: 10; }
     for (const part of webexts) {
       const w = await pkg.text(part);
       const ref = /<we:reference\b[^>]*>/.exec(w);
-      if (ref && !out.addin) out.addin = { storeId: attr(ref[0], 'id'), version: attr(ref[0], 'version'), store: attr(ref[0], 'store'), storeType: attr(ref[0], 'storeType'), part };
-      for (const pm of w.matchAll(/<we:property\b[^>]*>/g)) {
+      const props = [...w.matchAll(/<we:property\b[^>]*>/g)];
+      // Only a webextension that carries Velixo state (persist:* properties) or names Velixo is the Velixo binding.
+      const isVx = props.some((pm) => /^persist:/.test(attr(pm[0], 'name') || '')) || /velixo/i.test(w);
+      const binding = ref ? { storeId: attr(ref[0], 'id'), version: attr(ref[0], 'version'), store: attr(ref[0], 'store'), storeType: attr(ref[0], 'storeType'), part } : null;
+      if (binding) { if (isVx && !out.addin) out.addin = binding; else if (!isVx) out.others.push(binding); }
+      if (!isVx) continue;
+      for (const pm of props) {
         const name = attr(pm[0], 'name');
         const raw = attr(pm[0], 'value');
         const val = peel(raw);
@@ -1378,8 +1538,8 @@ header.top { position: relative; z-index: 10; }
     const blob = cellValue(m[1], m[2], sst);
     if (!blob) return null;
     const d = peel(blob);
-    if (!d || typeof d !== 'object') return { raw: blob };
-    const res = { keys: Object.keys(d), value: deepPeel(d), lastRefresh: null };
+    if (!d || typeof d !== 'object') return { raw: blob, size: String(blob).length };
+    const res = { keys: Object.keys(d), value: deepPeel(d), lastRefresh: null, size: String(blob).length };
     const lr = peel(d['persist:lastRefreshReducer'] || '{}');
     if (lr && typeof lr === 'object') {
       const by = lr.lastRefreshedBy ? peel(lr.lastRefreshedBy) : null;
@@ -1387,6 +1547,175 @@ header.top { position: relative; z-index: 10; }
       if (by || on) res.lastRefresh = { by, on };
     }
     return res;
+  }
+
+  /* ======================================================================
+     Volatile precedents: which live Velixo cells read a cell that is volatile,
+     directly or through other formulas (TODAY() -> EOMONTH(B1,0) -> Velixo).
+     ====================================================================== */
+  function volatilePrecedents(ctx, sheets) {
+    const D = ctx.depN, I = ctx.depI, N = I.length;
+    const out = { cells: 0, groups: [], volatileCells: 0, truncated: ctx.depTrunc };
+    if (!N) return out;
+    const sIdxByName = new Map(sheets.map((s, i) => [s.name, i]));
+    const key = (s, c, r) => (s * 16384 + (c - 1)) * 1048576 + (r - 1);
+    const where = (i) => sheets[D[i * 6]].name + '!' + colLetters(D[i * 6 + 1]) + D[i * 6 + 2];
+    const clip = (t) => (t.length > 70 ? t.slice(0, 67) + '...' : t);
+    // key -> { i: formula index, from: key of the volatile cell it reads (null = the source), name: defined name it reads it through }
+    const vol = new Map(), seeds = new Map();
+    for (let i = 0; i < N; i++) {
+      if (!I[i].volAlways) continue;
+      const s = D[i * 6], c = D[i * 6 + 1], r = D[i * 6 + 2];
+      vol.set(key(s, c, r), { i, from: null, name: null });
+      let l = seeds.get(s); if (!l) seeds.set(s, (l = [])); if (l.length < 400) l.push(c, r);
+    }
+    if (!vol.size) return out;
+    const hit = (i) => {
+      const s0 = D[i * 6], dc = D[i * 6 + 3], dr = D[i * 6 + 4];
+      for (const rf of I[i].refs) {
+        let s = s0; if (rf.s != null) { s = sIdxByName.get(rf.s); if (s == null) continue; }
+        let c1 = rf.ac1 ? rf.c1 : rf.c1 + dc, r1 = rf.ar1 ? rf.r1 : rf.r1 + dr, c2 = rf.ac2 ? rf.c2 : rf.c2 + dc, r2 = rf.ar2 ? rf.r2 : rf.r2 + dr;
+        if (c1 > c2) { const t = c1; c1 = c2; c2 = t; } if (r1 > r2) { const t = r1; r1 = r2; r2 = t; }
+        if (c1 < 1 || r1 < 1) continue;
+        const nm = rf.n || null;
+        if (c1 === c2 && r1 === r2) { const k = key(s, c1, r1); if (vol.has(k)) return { k, name: nm }; continue; }
+        if ((c2 - c1 + 1) * (r2 - r1 + 1) <= 64) { for (let c = c1; c <= c2; c++) for (let r = r1; r <= r2; r++) { const k = key(s, c, r); if (vol.has(k)) return { k, name: nm }; } continue; }
+        const l = seeds.get(s); if (!l) continue;
+        for (let j = 0; j < l.length; j += 2) if (l[j] >= c1 && l[j] <= c2 && l[j + 1] >= r1 && l[j + 1] <= r2) return { k: key(s, l[j], l[j + 1]), name: nm };
+      }
+      return null;
+    };
+    for (let pass = 0; pass < 5; pass++) {
+      let changed = false;
+      for (let i = 0; i < N && vol.size < T.VOL_SET_CAP; i++) {
+        if (D[i * 6 + 5] || !I[i].refs.length) continue;
+        const k = key(D[i * 6], D[i * 6 + 1], D[i * 6 + 2]);
+        if (vol.has(k)) continue;
+        const h = hit(i);
+        if (h) { vol.set(k, { i, from: h.k, name: h.name }); changed = true; }
+      }
+      if (!changed) break;
+    }
+    out.volatileCells = vol.size;
+    // Route from the volatile source to the cell a Velixo function reads, source first.
+    const pathOf = (h) => {
+      const hops = []; let cur = h.k, name = h.name, guard = 0;
+      while (cur != null && guard++ < 12) {
+        const v = vol.get(cur); if (!v) break;
+        hops.push({ cell: where(v.i), formula: '=' + clip(I[v.i].text), viaName: name, shared: D[v.i * 6 + 3] !== 0 || D[v.i * 6 + 4] !== 0, source: v.from == null, fn: v.from == null ? I[v.i].volAlways : null });
+        name = v.name; cur = v.from;
+      }
+      return hops.reverse();
+    };
+    const groups = new Map();
+    for (let i = 0; i < N; i++) {
+      if (!D[i * 6 + 5]) continue;
+      const h = hit(i);
+      if (!h) continue;
+      out.cells++;
+      const s = D[i * 6], gk = s + '|' + I[i].text;
+      let g = groups.get(gk);
+      if (!g) {
+        if (groups.size >= 2000) continue;
+        const path = pathOf(h), src = path[0];
+        groups.set(gk, (g = { sheet: sheets[s].name, cell: colLetters(D[i * 6 + 1]) + D[i * 6 + 2], last: null, cells: 0, source: src ? src.cell + ' (' + src.fn + ')' : '?', path, fns: [...new Set(I[i].velixoFns)].join(', '), formula: '=' + I[i].text }));
+      }
+      g.cells++; g.last = colLetters(D[i * 6 + 1]) + D[i * 6 + 2];
+    }
+    out.groups = [...groups.values()].sort((a, b) => b.cells - a.cells);
+    for (const g of out.groups) g.range = g.cells > 1 && g.last !== g.cell ? g.cell + ' ... ' + g.last : g.cell;
+    return out;
+  }
+
+  /* ======================================================================
+     Ranked causes: findings rolled up into "what is making this slow",
+     each tagged with the moment it costs time.
+     ====================================================================== */
+  const WHEN = { recalc: 'Every recalculation', calc: 'Calculation', refresh: 'Velixo refresh', open: 'Opening the file', ui: 'Scrolling / saving' };
+  const SEC_WHEN = { 'perf-volprec': 'recalc', 'perf-inside': 'recalc', 'perf-volatile': 'recalc', 'perf-whole': 'calc', 'perf-costly': 'calc', 'perf-calc': 'calc', 'vx-load': 'refresh', 'vx-gi': 'refresh', 'vx-missing': 'refresh',
+    'vx-elsewhere': 'ui', 'perf-cf': 'ui', 'perf-weight': 'ui', 'perf-bloat': 'ui', 'perf-styles': 'ui', 'st-dataconn': 'open', 'lk-workbooks': 'open', 'vx-options': 'open', 'st-pivotcache': 'open' };
+  function buildCauses(R) {
+    const C = [], p = R.perf, v = R.volatile, vx = R.velixo, VP = R.volPrec || { cells: 0, groups: [] };
+    const VL = R.velixoLoad || { heavy: [], totalVelixo: 0, unfiltered: [], spills: [], giRepeat: [], elsewhere: [] };
+    const list = (a, n) => a.slice(0, n).join(', ') + (a.length > n ? ' +' + (a.length - n) + ' more' : '');
+    // 1. volatile reaching Velixo
+    const inside = v.insideAddin.reduce((a, f) => a + (f.cells || 1), 0);
+    if (VP.cells || inside) C.push({ id: 'vol-velixo', sev: 'high', when: 'recalc', title: 'Velixo functions recalculate on every calculation',
+      evidence: [VP.cells ? list([...new Set(VP.groups.map((g) => g.source))], 3) + ' feed' + (new Set(VP.groups.map((g) => g.source)).size === 1 ? 's ' : ' ') + fmtN(VP.cells) + ' Velixo cell(s) through other cells or names' : '', inside ? fmtN(inside) + ' cell(s) have the volatile function typed inside the Velixo call' : ''].filter(Boolean).join('. ') + '.',
+      fix: 'Replace TODAY / NOW with TODAYNV / NOWNV or a typed date at the source cell.', metric: fmtN(VP.cells + inside) + ' Velixo cell(s)', score: VP.cells + inside, tab: 'perf', sec: VP.cells ? 'perf-volprec' : 'perf-inside' });
+    else if (v.always) C.push({ id: 'volatile', sev: 'medium', when: 'recalc', title: 'Volatile functions recalculate everything that depends on them',
+      evidence: v.summary.filter((x) => x.sev === 'Always').map((x) => x.fn + ' (' + fmtN(x.cells) + ' cells)').join(', ') + '. None of them feed a Velixo function.', fix: 'Use TODAYNV / NOWNV, INDEX instead of OFFSET, and direct references instead of INDIRECT.',
+      metric: fmtN(v.summary.filter((x) => x.sev === 'Always').reduce((a, x) => a + x.cells, 0)) + ' cell(s)', score: v.always, tab: 'perf', sec: 'perf-volatile' });
+    // 2. Velixo load
+    const big = VL.spills.filter((x) => x.cells >= T.BIG_SPILL_CELLS), veryHigh = VL.totalVelixo >= T.HEAVY_VELIXO_CELLS;
+    const lp = [];
+    if (veryHigh) lp.push(fmtN(VL.totalVelixo) + ' Velixo formula cells');
+    if (VL.heavy.length) lp.push(VL.heavy.length + ' sheet(s) with ' + fmtN(T.HEAVY_SHEET_FORMULAS) + '+ formulas (' + list(VL.heavy.map((x) => x.sheet), 3) + ')');
+    if (big.length) lp.push(list(big.map((x) => x.sheet + '!' + x.cell + ' spills ' + fmtN(x.rows) + ' x ' + fmtN(x.cols)), 2));
+    if (VL.unfiltered.length) lp.push(VL.unfiltered.length + ' GI() call(s) with no filter');
+    if (VL.giRepeat.length) lp.push(list(VL.giRepeat.map((x) => x.gi + ' loaded by ' + fmtN(x.calls) + ' separate GI() formulas'), 2));
+    if (lp.length) C.push({ id: 'vx-load', sev: veryHigh || VL.heavy.length ? 'high' : big.length ? 'medium' : 'low', when: 'refresh', title: big.length || VL.unfiltered.length || VL.giRepeat.length ? 'Large Generic Inquiry / Velixo load' : 'Very high number of Velixo formulas',
+      evidence: lp.join('. ') + '.', fix: 'Filter inquiries with GIFILTER, drop unused columns, read one GI() spill with GILOOKUP, and split or consolidate formula-heavy sheets.',
+      metric: big.length ? fmtN(big[0].cells) + ' cells in the largest spill' : fmtN(VL.totalVelixo) + ' Velixo cell(s)', score: (big[0] ? big[0].cells : 0) + VL.totalVelixo, tab: 'velixo', sec: 'vx-load' });
+    // 3. whole-column ranges
+    const wr = p.wholeRefs || [], wa = wr.filter((w) => w.cls === 'addin'), wy = wr.filter((w) => w.cls === 'array');
+    if (wa.length || wy.length) { const cells = [...wa, ...wy].reduce((a, w) => a + w.cells, 0);
+      C.push({ id: 'whole', sev: wa.length ? 'high' : 'medium', when: 'calc', title: 'Whole-column ranges in functions that read every row',
+        evidence: [wa.length ? fmtN(wa.reduce((a, w) => a + w.cells, 0)) + ' cell(s) pass a whole column / row into ' + list([...new Set(wa.flatMap((w) => w.usedIn.split(', ')))], 3) : '', wy.length ? fmtN(wy.reduce((a, w) => a + w.cells, 0)) + ' cell(s) array-evaluate one in ' + list([...new Set(wy.flatMap((w) => w.usedIn.split(', ')))], 3) : ''].filter(Boolean).join('. ') + '.',
+        fix: 'Use a bounded range or a table column.', metric: fmtN(cells) + ' cell(s)', score: cells, tab: 'perf', sec: 'perf-whole' }); }
+    // 4. Velixo outside cells
+    const cfdv = VL.elsewhere.filter((x) => x.where !== 'Defined name');
+    if (cfdv.length) C.push({ id: 'vx-elsewhere', sev: 'medium', when: 'ui', title: 'Velixo functions inside conditional formatting or validation', evidence: list([...new Set(cfdv.map((x) => x.where + ' on ' + x.sheet))], 3) + '. Evaluated on redraw and on every edit, outside the normal refresh.',
+      fix: 'Put the Velixo function in a cell and point the rule at that cell.', metric: cfdv.length + ' rule(s)', score: cfdv.length, tab: 'velixo', sec: 'vx-elsewhere' });
+    // 5. calculation settings and heavy native functions
+    const cp = [];
+    if (R.workbook.forceFullCalc) cp.push('Force full calculation is set');
+    if (p.calcManual) cp.push('Calculation mode is ' + R.workbook.calcMode);
+    if (p.dataTables) cp.push(fmtN(p.dataTables) + ' what-if data table cell(s)');
+    if (R.workbook.concurrentCalcOff) cp.push('Multi-threaded calculation is off');
+    const costly = p.costly.filter((c) => c.flag);
+    if (costly.length) cp.push(list(costly.map((c) => c.name + ' in ' + fmtN(c.cells) + ' cells'), 3));
+    if (cp.length) C.push({ id: 'calc', sev: R.workbook.forceFullCalc || p.calcManual ? 'medium' : 'low', when: 'calc', title: 'Calculation settings and heavy native functions', evidence: cp.join('. ') + '.',
+      fix: 'Turn multi-threaded calculation back on, clear force-full-calc, and replace SUMPRODUCT / volume lookups with SUMIFS or a helper column.', metric: cp.length + ' item(s)', score: cp.length, tab: 'perf', sec: costly.length && cp.length === 1 ? 'perf-costly' : 'perf-calc' });
+    // 6. sheet weight
+    const wp = [], wt = p.weight.filter((w) => w.flag), dr = wt.filter((w) => w.drawings >= T.DRAWING_OBJECTS_WARN), es = wt.filter((w) => w.emptyStyled >= T.EMPTY_STYLED_WARN && w.emptyStyled > w.cells);
+    if (dr.length) wp.push(list(dr.map((w) => fmtN(w.drawings) + ' shapes on ' + w.sheet), 2));
+    if (p.cf.flagged) wp.push(fmtN(p.cf.total) + ' conditional-formatting rule(s)' + (p.cf.big ? ', ' + p.cf.big + ' on whole columns' : '') + (p.cf.fragmented ? ', ' + p.cf.fragmented + ' fragmented' : ''));
+    if (es.length) wp.push(list(es.map((w) => fmtN(w.emptyStyled) + ' formatted empty cells on ' + w.sheet), 2));
+    else if (p.bloated && p.bloated.length) wp.push('used-range bloat on ' + list(p.bloated.map((b) => b.sheet), 3));
+    if (p.styleBloat) wp.push(fmtN(R.styles.cellXfs) + ' cell formats');
+    if (wp.length) C.push({ id: 'weight', sev: dr.length || p.cf.flagged || p.styleBloat ? 'medium' : 'low', when: 'ui', title: 'Sheet weight: slow scrolling, copying and saving', evidence: wp.join('. ') + '.',
+      fix: 'Delete stray objects in the Selection Pane, tidy conditional formatting, then run Clean & share > Clean bloat.', metric: wt.length ? wt.length + ' sheet(s)' : wp.length + ' item(s)', score: wp.length, tab: 'perf', sec: dr.length || es.length ? 'perf-weight' : p.cf.flagged ? 'perf-cf' : p.styleBloat ? 'perf-styles' : 'perf-bloat' });
+    // 7. opening
+    const op = [], roo = vx.options.find((o) => o.key.startsWith('shouldRefreshDataOnOpen'));
+    const rooOn = !!(roo && (roo.nx === true || norm1(roo.sheet) === 'true' || roo.sheet === '1'));
+    if (rooOn) op.push('Velixo refreshes data when the file opens');
+    if (p.fullCalcOnLoad) op.push('full calculation on load');
+    if (p.refreshOnLoad.connections.length || p.refreshOnLoad.pivots) op.push([p.refreshOnLoad.connections.length ? p.refreshOnLoad.connections.length + ' data connection(s)' : '', p.refreshOnLoad.pivots ? p.refreshOnLoad.pivots + ' pivot cache(s)' : ''].filter(Boolean).join(' and ') + ' refresh on open');
+    if (R.links.workbooks.length) op.push(R.links.workbooks.length + ' linked workbook(s) to resolve');
+    if (R.file.size >= 10 * 1048576) op.push('file is ' + (Math.round(R.file.size / 1048576 * 10) / 10) + ' MB');
+    if (op.length) C.push({ id: 'open', sev: rooOn || p.fullCalcOnLoad ? 'medium' : 'low', when: 'open', title: 'Work done every time the file opens', evidence: op.join(', ') + '.',
+      fix: 'Clean & share > Faster opening options can switch these off in a copy.', metric: op.length + ' item(s)', score: op.length, tab: rooOn ? 'velixo' : p.fullCalcOnLoad ? 'perf' : 'structure', sec: rooOn ? 'vx-options' : p.fullCalcOnLoad ? 'perf-calc' : R.links.workbooks.length && !p.refreshOnLoad.connections.length && !p.refreshOnLoad.pivots ? 'lk-workbooks' : 'st-dataconn' });
+    const so = { high: 0, medium: 1, low: 2 };
+    C.sort((a, b) => so[a.sev] - so[b.sev] || b.score - a.score);
+    const WHY = {
+      'vol-velixo': 'Any edit anywhere in the workbook re-evaluates these Velixo functions, not only a refresh.',
+      volatile: 'Every formula that depends on a volatile cell recalculates on every calculation.',
+      'vx-load': 'Each refresh downloads and writes this much data; large spills and many separate requests are where refresh time and memory go.',
+      whole: 'The function receives or evaluates over a million rows per column each time it calculates.',
+      'vx-elsewhere': 'These rules are evaluated when the sheet redraws and on every edit, outside a Velixo refresh.',
+      calc: 'These settings and functions make each calculation pass slower than it needs to be.',
+      weight: 'Excel has to draw, copy and save all of it, so scrolling, pasting and saving drag.',
+      open: 'All of this runs before the workbook is usable, every time it is opened.',
+    };
+    for (const c of C) c.why = WHY[c.id] || '';
+    const SEC_CAUSE = { 'perf-volprec': 'vol-velixo', 'perf-inside': 'vol-velixo', 'perf-volatile': 'vol-velixo', 'vx-load': 'vx-load', 'vx-gi': 'vx-load', 'perf-whole': 'whole', 'vx-elsewhere': 'vx-elsewhere', 'perf-calc': 'calc', 'perf-costly': 'calc',
+      'perf-weight': 'weight', 'perf-cf': 'weight', 'perf-bloat': 'weight', 'perf-styles': 'weight', 'st-dataconn': 'open', 'lk-workbooks': 'open', 'vx-options': 'open', 'st-pivotcache': 'open' };
+    const ids = new Set(C.map((c) => c.id));
+    for (const f of R.findings) { let id = SEC_CAUSE[f.sec]; if (id === 'vol-velixo' && !ids.has(id)) id = 'volatile'; if (id && ids.has(id) && f.sev !== 'info') f.cause = id; }
+    const byWhen = {}; for (const k in WHEN) byWhen[k] = 0;
+    for (const f of R.findings) if (f.when && f.sev !== 'info') byWhen[f.when]++;
+    return { list: C, byWhen, labels: WHEN };
   }
 
   /* ======================================================================
@@ -1450,6 +1779,9 @@ header.top { position: relative; z-index: 10; }
       calcMode: (calc && attr(calc[0], 'calcMode')) || 'auto',
       fullCalcOnLoad: !!calc && ['1', 'true'].includes(attr(calc[0], 'fullCalcOnLoad')),
       iterate: !!calc && ['1', 'true'].includes(attr(calc[0], 'iterate')),
+      concurrentCalcOff: !!calc && ['0', 'false'].includes(attr(calc[0], 'concurrentCalc')),
+      forceFullCalc: !!calc && ['1', 'true'].includes(attr(calc[0], 'forceFullCalc')),
+      precisionAsDisplayed: !!calc && ['0', 'false'].includes(attr(calc[0], 'fullPrecision')),
       calcId: calc ? attr(calc[0], 'calcId') : null,
       date1904: !!wbPr && ['1', 'true'].includes(attr(wbPr[0], 'date1904')),
       filterPrivacy: !!wbPr && ['1', 'true'].includes(attr(wbPr[0], 'filterPrivacy')),
@@ -1483,7 +1815,19 @@ header.top { position: relative; z-index: 10; }
         hidden: ['1', 'true'].includes(attr(dm[1], 'hidden')), comment: attr(dm[1], 'comment'), formula: text });
     }
     const lambdaNames = new Set(names.filter((n) => /^\s*_xlfn\.LAMBDA\s*\(/i.test(n.formula)).map((n) => n.name.toUpperCase()));
-    const ctx = { deep, alwaysOnly, lambdaNames, volNameRx: null, volNameMap: null, volNameDisplay: null, fnUse: new Map(), velixoArgs: new Map(), giUsed: new Set(), versions: [], currentSheet: null, extUse: new Map(), refErrs: [], pathLits: [], vxAnchors: new Map(), spillUses: [], sheetDeps: new Map(), giNoFilter: [] };
+    const ctx = { deep, alwaysOnly, lambdaNames, volNameRx: null, volNameMap: null, volNameDisplay: null, fnUse: new Map(), velixoArgs: new Map(), giUsed: new Set(), versions: [], currentSheet: null, extUse: new Map(), refErrs: [], pathLits: [], vxAnchors: new Map(), spillUses: [], sheetDeps: new Map(), giNoFilter: [],
+      vxElsewhere: [], vxCse: [], giCalls: new Map(), depN: [], depI: [], depTrunc: false, sheetIdx: 0, nameCells: new Map() };
+    // names that are a plain cell / range: used to follow a name back to the cell it points at
+    for (const n of names) {
+      if (!n.name || !n.formula) continue;
+      const t = /^(?:'((?:[^']|'')+)'|([^!'\[]+))!\$?([A-Z]{1,3})\$?(\d+)(?::\$?([A-Z]{1,3})\$?(\d+))?$/.exec(n.formula.trim());
+      if (!t) continue;
+      const k = n.name.toUpperCase(); if (ctx.nameCells.has(k) && n.scope !== 'Workbook') continue;
+      const c1 = colNum(t[3]), r1 = +t[4];
+      ctx.nameCells.set(k, { n: n.name, s: t[1] ? t[1].replace(/''/g, "'") : t[2], c1, r1, c2: t[5] ? colNum(t[5]) : c1, r2: t[6] ? +t[6] : r1, ac1: true, ar1: true, ac2: true, ar2: true });
+    }
+    const nameExact = new Set(names.map((x) => x.name)), nameUpper = new Map();
+    for (const x of names) { const k = (x.name || '').toUpperCase(); const l = nameUpper.get(k); if (l) l.push(x); else nameUpper.set(k, [x]); }
     const bareAnalyze = makeFormulaAnalyzer({ ...ctx, deep: false });
     const vn = volatileNameMap(names, bareAnalyze);
     if (vn.map.size) {
@@ -1497,7 +1841,7 @@ header.top { position: relative; z-index: 10; }
       const viaK = vn.map.get((n.name || '').toUpperCase());
       if (viaK) n.volatile = [...new Set([...n.volatile, ...viaK])];
       n.broken = /#REF!/.test(n.formula || '');
-      n.external = RX.extRef.test(scrubStrings(n.formula || ''));
+      n.external = a.extRef;
       n.velixo = a.velixo;
       n.builtIn = /^_xlnm\./i.test(n.name || '');
     }
@@ -1527,6 +1871,9 @@ header.top { position: relative; z-index: 10; }
     R.tables = []; R.pivots = []; R.comments = { count: 0, authors: new Set(), threaded: 0 };
     let idx = 0;
     const usedXf = new Set([0]);
+    const sheetXml = new Map(), sheetByName = new Map(sheets.map((x) => [x.name, x]));
+    const getXml = async (name) => { if (sheetXml.has(name)) return sheetXml.get(name); const x = sheetByName.get(name); return x && x.part ? await pkg.text(x.part) : null; };
+    const skipSheet = (sh, err) => { R.status = 'partial'; R.notes.push('Sheet "' + sh.name + '" could not be scanned and is left out of the results: ' + (err && err.message ? err.message : err)); };
     for (const sh of sheets) {
       idx++;
       progress('Scanning ' + sh.name, idx / Math.max(1, sheets.length));
@@ -1572,13 +1919,16 @@ header.top { position: relative; z-index: 10; }
         }
       }
       if (sh.kind !== 'worksheet') continue;
-      const xml = await pkg.text(sh.part);
+      let xml;
+      try { xml = await pkg.text(sh.part); } catch (err) { skipSheet(sh, err); continue; }
+      if (xml.length <= T.SHEET_XML_CACHE_CHARS) sheetXml.set(sh.name, xml);
       for (const m of xml.matchAll(/<(?:c|row)\b[^>]*?\bs="(\d+)"/g)) usedXf.add(+m[1]);
       for (const m of xml.matchAll(/<col\b[^>]*?\bstyle="(\d+)"/g)) usedXf.add(+m[1]);
       const label = sh.state !== 'visible' ? sh.name + ' [' + sh.state + ']' : sh.name;
-      ctx.currentSheet = sh.name;
+      ctx.currentSheet = sh.name; ctx.sheetIdx = idx - 1;
       const rc = (xml.match(/<c\b[^>]*?\bvm="/g) || []).length; richCells += rc;
-      const res = scanSheet(xml, label, ctx, sst);
+      let res;
+      try { res = scanSheet(xml, label, ctx, sst); } catch (err) { skipSheet(sh, err); continue; }
       res.stats.richValueCells = rc;
       const relById = new Map(rels.map((r) => [r.id, r]));
       for (const hm of xml.matchAll(/<hyperlink\b[^>]*>/g)) {
@@ -1587,7 +1937,7 @@ header.top { position: relative; z-index: 10; }
         else if (loc) {
           const m = /^(?:'((?:[^']|'')+)'|([^!]+))!/.exec(loc);
           const tsheet = m ? (m[1] ? m[1].replace(/''/g, "'") : m[2]) : null;
-          const ok = tsheet ? sheets.some((x) => x.name === tsheet) : names.some((x) => x.name === loc);
+          const ok = tsheet ? sheetByName.has(tsheet) : nameExact.has(loc);
           if (!ok) hyperlinks.push({ sheet: sh.name, cell: ref, target: loc, type: 'internal', broken: true });
         }
       }
@@ -1631,9 +1981,10 @@ header.top { position: relative; z-index: 10; }
         const ext = sRid ? crels.find((c) => c.id === sRid) : null;
         if (ext) src = { type: 'Other workbook', status: 'external', external: safeUnescape(ext.target || ''), detail: (sSheet ? sSheet + '!' : '') + (sRef || sName || '') };
         else if (sName) {
-          const ok = names.some((nn) => (nn.name || '').toUpperCase() === sName.toUpperCase()) || R.tables.some((t) => (t.name || '').toUpperCase() === sName.toUpperCase());
           const tb = R.tables.find((t) => (t.name || '').toUpperCase() === sName.toUpperCase());
-          const nm = names.find((nn) => (nn.name || '').toUpperCase() === sName.toUpperCase() && nn.scope === 'Workbook') || names.find((nn) => (nn.name || '').toUpperCase() === sName.toUpperCase());
+          const cand = nameUpper.get(sName.toUpperCase()) || [];
+          const ok = cand.length > 0 || !!tb;
+          const nm = cand.find((nn) => nn.scope === 'Workbook') || cand[0];
           const nmSheet = nm ? (/^(?:'((?:[^']|'')+)'|([^!']+))!/.exec(nm.formula || '') || []) : [];
           src = { type: 'Named range / table', status: ok ? 'ok' : 'missing', detail: sName + (ok ? '' : ' - name or table not found'), sourceSheet: tb ? tb.sheet : nmSheet[1] ? nmSheet[1].replace(/''/g, "'") : nmSheet[2] || null };
         } else if (sSheet) {
@@ -1668,7 +2019,7 @@ header.top { position: relative; z-index: 10; }
       const cx = await pkg.text(cp);
       for (const m of cx.matchAll(/<c:f>([\s\S]*?)<\/c:f>/g)) {
         const f = dec(m[1]);
-        for (const ix of [...f.matchAll(/\[(\d+)\]/g)].map((x) => +x[1])) { const u = ctx.extUse.get(ix) || { cells: 0, sheets: new Set(), sample: null }; u.charts = (u.charts || 0) + 1; ctx.extUse.set(ix, u); }
+        for (const ix of [...f.matchAll(RX.ext)].map((x) => +(x[1] || x[2]))) { const u = ctx.extUse.get(ix) || { cells: 0, sheets: new Set(), sample: null }; u.charts = (u.charts || 0) + 1; ctx.extUse.set(ix, u); }
         if (/#REF!/.test(f) && ctx.refErrs.length < T.DETAIL_CAP) ctx.refErrs.push({ where: 'Chart series', sheet: cp.split('/').pop(), cell: '', formula: f, cells: 0 });
       }
     }
@@ -1715,6 +2066,8 @@ header.top { position: relative; z-index: 10; }
     const velixoSheets = sheets.filter((s) => isVelixoStateSheet(s.name)).map((s) => ({ name: s.name, state: s.state }));
     const fnList = [...ctx.fnUse.values()].map((u) => ({ ...u, sheets: [...u.sheets] }));
     const vxFns = fnList.filter((u) => u.cat === 'velixo').sort((a, b) => b.cells - a.cells);
+    // A lone add-in binding without Velixo state is still taken as Velixo when the workbook is otherwise a Velixo workbook.
+    if (!vx.addin && vx.others.length === 1 && (velixoSheets.length || vxFns.length)) { vx.addin = vx.others[0]; vx.others = []; }
     const connections = vx.connections.length ? vx.connections : velixoClassicConns;
     const connNames = new Set(connections.map((c) => String(c.name || '').toUpperCase()));
     // duplicate / conflicting connections
@@ -1736,10 +2089,13 @@ header.top { position: relative; z-index: 10; }
     }
     const xmlCache = new Map();
     const cellAt = async (sheetName, ref) => {
-      const sh = sheets.find((x) => x.name === sheetName); if (!sh || !sh.part) return null;
-      if (!xmlCache.has(sheetName)) xmlCache.set(sheetName, await pkg.text(sh.part));
-      const m = new RegExp('<c\\b([^>]*\\br="' + ref + '"[^>]*?)(?:/>|>([\\s\\S]*?)</c>)').exec(xmlCache.get(sheetName));
-      return m && m[2] ? cellValue(m[1], m[2], sst) : null;
+      if (!xmlCache.has(sheetName)) xmlCache.set(sheetName, await getXml(sheetName));
+      const xml = xmlCache.get(sheetName); if (!xml) return null;
+      const i = xml.indexOf(' r="' + ref + '"'); if (i < 0) return null;
+      const s = xml.lastIndexOf('<c', i), gt = xml.indexOf('>', i);
+      if (s < 0 || gt < 0 || xml[gt - 1] === '/') return null;
+      const end = xml.indexOf('</c>', gt); if (end < 0) return null;
+      return cellValue(xml.slice(s + 2, gt), xml.slice(gt + 1, end), sst);
     };
     const resolveArg = async (arg, sheet) => {
       if (arg === '') return { value: null, via: 'empty - default connection' };
@@ -1749,7 +2105,8 @@ header.top { position: relative; z-index: 10; }
       if (m && /!|^[A-Z]{1,3}\d+$/i.test(plain)) { const sh = m[1] ? m[1].replace(/''/g, "'") : m[2] || sheet; return { value: await cellAt(sh, m[3].toUpperCase()), via: 'cell ' + (sh !== sheet ? sh + '!' : '') + m[3].toUpperCase() }; }
       if (/^[A-Za-z_\\][\w.]*$/.test(arg)) {
         const up = arg.toUpperCase();
-        const dn = names.find((x) => (x.name || '').toUpperCase() === up && x.scope === sheet) || names.find((x) => (x.name || '').toUpperCase() === up && x.scope === 'Workbook');
+        const cand = nameUpper.get(up) || [];
+        const dn = cand.find((x) => x.scope === sheet) || cand.find((x) => x.scope === 'Workbook');
         if (!dn) return { value: null, via: 'name ' + arg + ' (not defined)' };
         const t = /^(?:'((?:[^']|'')+)'|([^!']+))!\$?([A-Z]{1,3})\$?(\d+)$/.exec((dn.formula || '').trim());
         if (!t) return { value: null, via: 'name ' + arg + ' -> ' + dn.formula };
@@ -1815,7 +2172,7 @@ header.top { position: relative; z-index: 10; }
     R.velixo = {
       isVelixo: !!(vx.addin || velixoSheets.length || vxFns.length),
       edition: vx.addin || hasNxStorage ? 'NX' : velixoSheets.length ? 'Classic' : vxFns.length ? 'functions only' : null,
-      signals, addin: vx.addin, taskpane: vx.taskpane, webextParts: vx.webextParts,
+      signals, addin: vx.addin, otherAddins: vx.others, taskpane: vx.taskpane, webextParts: vx.webextParts,
       workbookId: vx.workbookId, connections, nxOptions: vx.nxOptions, workbookOptions: vx.workbookOptions,
       persist: vx.persist, storage: nx, lastRefresh: nx && nx.lastRefresh, sheets: velixoSheets,
       erps: erpCells, functions: vxFns, firstArgs: args, cells: velixoCells, errors: velixoErrors, noValue: velixoNoValue,
@@ -1826,7 +2183,8 @@ header.top { position: relative; z-index: 10; }
       richDataSize: R.package.parts.filter((p) => /^xl\/richData\//i.test(p.name)).reduce((a, p) => a + p.size, 0) };
     R.functions = fnList.sort((a, b) => b.cells - a.cells);
 
-    await toolsChecks(R, { ctx, pkg, sheets, names, sst, bareAnalyze });
+    R.volPrec = volatilePrecedents(ctx, sheets);
+    await toolsChecks(R, { ctx, pkg, sheets, names, sst, bareAnalyze, getXml });
 
     // ---- personal information
     R.personal = [];
@@ -1850,6 +2208,7 @@ header.top { position: relative; z-index: 10; }
     // ---- performance (deep)
     R.perf = buildPerf(R, deep);
     R.findings = buildFindings(R);
+    R.causes = buildCauses(R);
     return R;
   }
   /* ======================================================================
@@ -1897,12 +2256,12 @@ header.top { position: relative; z-index: 10; }
   const DIST_FORMATS = ['excel', 'excel (remove velixo formulas)', 'excel (remove all formulas)', 'pdf', 'none'];
 
   async function toolsChecks(R, X) {
-    const { ctx, pkg, sheets, names, sst, bareAnalyze } = X;
+    const { ctx, pkg, sheets, names, sst, bareAnalyze, getXml } = X;
     const byName = new Map(sheets.map((s) => [s.name, s]));
     const upName = (n) => String(n || '').toUpperCase();
     const cellMaps = new Map();
     const cellsOf = async (name) => {
-      if (!cellMaps.has(name)) { const sh = byName.get(name); cellMaps.set(name, sh && sh.part && sh.kind === 'worksheet' ? readCellMap(await pkg.text(sh.part), sst) : new Map()); }
+      if (!cellMaps.has(name)) { const sh = byName.get(name); cellMaps.set(name, sh && sh.part && sh.kind === 'worksheet' ? readCellMap((await getXml(name)) || '', sst) : new Map()); }
       return cellMaps.get(name);
     };
     const addPath = (where, location, raw) => { const c = classifyPath(raw); R.links.paths.push({ where, location, path: c.path, kind: c.kind, risk: c.risk, why: c.why }); return c; };
@@ -2038,6 +2397,12 @@ header.top { position: relative; z-index: 10; }
       heavy: ws.filter((s) => s.stats.formulaCells >= T.HEAVY_SHEET_FORMULAS).map((s) => ({ sheet: s.name, formulas: s.stats.formulaCells, velixo: s.stats.velixoCells })),
       totalVelixo: R.velixo.cells, unfiltered,
       refreshPrecedents: !!(R.velixo.nxOptions && R.velixo.nxOptions.shouldRefreshPrecedentWorksheets === true), cascade,
+      spills: [...ctx.vxAnchors].map(([k, ref]) => { const i = k.lastIndexOf('!'), a = parseArea(ref); return { sheet: k.slice(0, i), cell: k.slice(i + 1), range: ref, rows: a ? a.r2 - a.r1 + 1 : 1, cols: a ? a.c2 - a.c1 + 1 : 1, cells: Math.max(1, rangeCellCount(ref)) }; })
+        .filter((x) => x.cells > 1).sort((a, b) => b.cells - a.cells).slice(0, 200),
+      giRepeat: [...ctx.giCalls].filter(([, n]) => n >= T.GI_REPEAT).map(([gi, n]) => ({ gi, calls: n })).sort((a, b) => b.calls - a.calls),
+      elsewhere: [...ctx.vxElsewhere, ...names.filter((n) => n.velixo && !n.builtIn && !FROZEN_RX.test(n.formula || '')).map((n) => ({ where: 'Defined name', sheet: n.scope, cell: n.name, fns: [...new Set(bareAnalyze(n.formula).velixoFns)].join(', '), formula: '=' + n.formula }))],
+      legacyArrays: ctx.vxCse, legacyArrayCount: ws.reduce((a, s) => a + s.stats.vxCse, 0),
+      inaccessibleGi: R.velixo.giOptions.filter((g) => g.inaccessible).map((g) => g.gi),
     };
 
     // ---- auto-hide zero rows / columns
@@ -2135,6 +2500,13 @@ header.top { position: relative; z-index: 10; }
       bigParts: R.package.parts.filter((p) => p.size >= T.BIG_PART_BYTES),
       bigMedia: R.package.media.filter((p) => p.size >= T.BIG_MEDIA_BYTES),
       bigPivots: R.pivotCaches.filter((p) => p.recordsSize >= T.BIG_PIVOT_RECORDS),
+      costly: R.functions.filter((f) => f.cat === 'native' && COSTLY[f.name]).map((f) => ({ name: f.name, cells: f.cells, calls: f.calls, sheets: f.sheets, note: COSTLY[f.name][1], flag: f.cells >= COSTLY[f.name][0] })).sort((a, b) => b.cells - a.cells),
+      weight: ws.map((s) => ({ sheet: s.name, drawings: ((s.objects || {}).shapes || 0) + ((s.objects || {}).pictures || 0), validations: s.stats.dvCount, dvFragmented: s.stats.dvFragmented, emptyStyled: s.stats.emptyCells, cells: s.stats.cells,
+        flag: ((s.objects || {}).shapes || 0) + ((s.objects || {}).pictures || 0) >= T.DRAWING_OBJECTS_WARN || s.stats.dvCount >= T.DV_RULES_WARN || s.stats.dvFragmented > 0 || (s.stats.emptyCells >= T.EMPTY_STYLED_WARN && s.stats.emptyCells > s.stats.cells) })),
+      dataTables: ws.reduce((a, s) => a + s.stats.dataTables, 0),
+      refreshOnLoad: { connections: R.dataConnections.filter((c) => c.refreshOnLoad).map((c) => c.name), pivots: R.pivotCaches.filter((c) => c.refreshOnLoad).length },
+      dupPivotCaches: (() => { const m = new Map(); for (const pc of R.pivotCaches) { const k = pc.source && pc.source !== '?' && pc.source !== 'External connection' ? pc.source.toUpperCase() : null; if (!k) continue; if (!m.has(k)) m.set(k, []); m.get(k).push(pc); }
+        return [...m.values()].filter((l) => l.length > 1).map((l) => ({ source: l[0].source, caches: l.length, bytes: l.reduce((a, x) => a + x.recordsSize, 0) })); })(),
       limits: (() => {
         const mx = (k) => ws.reduce((a, s) => Math.max(a, s.stats[k] || 0), 0);
         const at = (k) => (ws.find((s) => s.stats[k] === mx(k)) || {}).name || '';
@@ -2144,10 +2516,14 @@ header.top { position: relative; z-index: 10; }
           { item: 'Used rows (largest sheet)', value: mx('maxRow'), limit: XL_MAX_ROW, where: at('maxRow') },
           { item: 'Used columns (largest sheet)', value: mx('maxCol'), limit: XL_MAX_COL, where: at('maxCol') },
           { item: 'Longest formula (characters)', value: mx('maxFormulaLen'), limit: 8192, where: at('maxFormulaLen') },
+          { item: 'Longest text literal inside a formula (characters)', value: mx('maxLitLen'), limit: 255, where: at('maxLitLen'), warnAt: 0.9, note: 'Excel rejects a quoted string over 255 characters in a formula - long GI / query filter strings hit this. Build the text in a cell or join shorter pieces with &.' },
+          { item: 'Deepest bracket nesting in a formula', value: mx('maxDepth'), limit: 64, where: at('maxDepth'), note: 'Excel allows 64 levels of nested functions.' },
+          { item: 'Custom number formats', value: R.styles.numFmts, limit: 250, where: 'workbook', note: 'Excel allows roughly 200-250 custom number formats.' },
+          ...(R.velixo.storage && R.velixo.storage.size ? [{ item: 'VelixoNxStorage!A1 (characters)', value: R.velixo.storage.size, limit: 32767, where: 'VelixoNxStorage', note: 'Velixo NX keeps its workbook state in this one cell; a cell holds at most 32,767 characters.' }] : []),
           { item: 'Hyperlinks on one sheet', value: mx('hyperlinks'), limit: 65530, where: at('hyperlinks') },
           { item: 'Hidden defined names (guide, not a hard limit)', value: R.definedNames.filter((x) => x.hidden).length, limit: T.HIDDEN_NAMES_GUIDE, where: 'workbook', note: 'Tens of thousands of hidden names make opening and snapshots very slow or fail.' },
         ];
-        for (const l of L) { l.pct = l.limit ? l.value / l.limit : 0; l.flag = l.pct >= 0.8; }
+        for (const l of L) { l.pct = l.limit ? l.value / l.limit : 0; l.flag = l.pct >= (l.warnAt || 0.8); }
         return L;
       })(),
     };
@@ -2170,7 +2546,7 @@ header.top { position: relative; z-index: 10; }
     if (vx.functions.length && !vx.addin && !vx.sheets.length) add('info', 'Velixo', 'Velixo functions without Velixo workbook state', 'Formulas use Velixo functions but there is no add-in binding or Velixo sheet - typically cells copied in from another workbook.', 'velixo', 'vx-functions');
     if ((vx.connIssues || []).length) add('low', 'Velixo', vx.connIssues.length + ' duplicate / conflicting connection(s)', vx.connIssues.slice(0, 4).map((c) => c.type + ': ' + c.names).join('; '), 'velixo', 'vx-conn');
     const lim = (p.limits || []).filter((l) => l.flag);
-    if (lim.length) add('low', 'Performance', lim.length + ' Excel limit(s) above 80%', lim.map((l) => l.item + ' ' + Math.round(l.pct * 100) + '%').join(', '), 'perf', 'perf-limits');
+    if (lim.length) add('low', 'Performance', lim.length + ' Excel limit(s) nearly reached', lim.map((l) => l.item + ' ' + Math.round(l.pct * 100) + '%').join(', '), 'perf', 'perf-limits');
     const unknown = vx.functions.filter((f) => f.known === false);
     if (unknown.length) add('low', 'Velixo', unknown.length + ' Velixo/add-in function(s) not in the Velixo function list', unknown.map((f) => f.name + ' x' + fmtN(f.cells)).join(', ') + ' - misspelt, retired, another XLL add-in, or a newer function the list does not have yet.', 'velixo', 'vx-functions');
     const wb = vx.functions.filter((f) => f.category === 'Writeback');
@@ -2192,13 +2568,38 @@ header.top { position: relative; z-index: 10; }
     if (R.richValues && R.richValues.cells) add(R.richValues.metadataSize + R.richValues.richDataSize > 1048576 ? 'low' : 'info', 'Size', fmtN(R.richValues.cells) + ' cell(s) stored as rich values',
       'Typically dates / formatted numbers or errors returned by dynamic-array functions (e.g. GI spills). metadata.xml ' + Math.round(R.richValues.metadataSize / 1024) + ' KB + richData ' + Math.round(R.richValues.richDataSize / 1024) + ' KB.', 'package', 'pkg-parts');
     // Volatile
+    const VP = R.volPrec;
+    if (VP && VP.cells) add('high', 'Volatile', fmtN(VP.cells) + ' Velixo cell(s) read a volatile cell', 'Their arguments point (directly, through other formulas or through a defined name) at a cell that recalculates on every calculation, so these Velixo functions are re-evaluated on every recalculation too. Source(s): ' + [...new Set(VP.groups.map((g) => g.source))].slice(0, 4).join(', ') + '. Replace TODAY / NOW with TODAYNV / NOWNV or a typed date.', 'perf', 'perf-volprec');
     if (v.insideAddin.length) add('high', 'Volatile', v.insideAddin.length + ' volatile call(s) inside add-in / ERP functions', 'These re-run the ERP query on every recalculation - fix these first.', 'perf', 'perf-inside');
     if (v.always) add('high', 'Volatile', fmtN(v.always) + ' always-volatile call(s)', v.summary.filter((s) => s.sev === 'Always').map((s) => s.fn + ' (' + fmtN(s.cells) + ' cells)').join(', '), 'perf', 'perf-volatile');
     if (v.conditional) add('low', 'Volatile', fmtN(v.conditional) + ' conditionally-volatile call(s)', v.summary.filter((s) => s.sev !== 'Always').map((s) => s.fn).join(', '), 'perf', 'perf-volatile');
     // Performance (not volatile)
     if (p.calcManual) add('high', 'Performance', 'Calculation mode is "' + R.workbook.calcMode + '"', 'Often a sign someone turned calculation off because the workbook was slow. Displayed values may be stale.', 'perf', 'perf-calc');
     if (p.fullCalcOnLoad) add('medium', 'Performance', 'Full calculation on load', 'Every open of a snapshot / distributed copy pays a full recalc. Recalculate, save, and it normally clears.', 'perf', 'perf-calc');
-    if (p.wholeRefs && p.wholeRefs.length) add('medium', 'Performance', fmtN(p.wholeRefs.length) + ' formula(s) use whole-column / whole-row references', 'Not volatile. SUMIFS/COUNTIFS cope; SUMPRODUCT, VLOOKUP and array formulas scan the whole column every time.', 'perf', 'perf-whole');
+    if (p.wholeRefs && p.wholeRefs.length) {
+      const wa = p.wholeRefs.filter((w) => w.cls === 'addin'), wr = p.wholeRefs.filter((w) => w.cls === 'array'), wn = p.wholeRefs.filter((w) => w.cls !== 'addin' && w.cls !== 'array');
+      const cellsOf = (l) => fmtN(l.reduce((a, w) => a + w.cells, 0));
+      if (wa.length) add('high', 'Performance', fmtN(wa.length) + ' formula(s) pass a whole column / row into a Velixo or add-in function', cellsOf(wa) + ' cell(s), in ' + [...new Set(wa.flatMap((w) => w.usedIn.split(', ')))].slice(0, 5).join(', ') + '. The whole range (over a million cells per column) is handed to the add-in on every call. Use a bounded range or a table column.', 'perf', 'perf-whole');
+      if (wr.length) add('medium', 'Performance', fmtN(wr.length) + ' array-evaluated formula(s) use whole-column / whole-row references', cellsOf(wr) + ' cell(s), in ' + [...new Set(wr.flatMap((w) => w.usedIn.split(', ')))].slice(0, 5).join(', ') + '. SUMPRODUCT and array formulas evaluate every row of the column on each calculation.', 'perf', 'perf-whole');
+      if (wn.length) add('low', 'Performance', fmtN(wn.length) + ' other formula(s) use whole-column / whole-row references', cellsOf(wn) + ' cell(s). SUMIFS / COUNTIFS / lookups limit themselves to the used range, so these only hurt when the sheet also has used-range bloat.', 'perf', 'perf-whole');
+    }
+    if (R.workbook.forceFullCalc) add('medium', 'Performance', 'Force full calculation is set', 'Every recalculation recalculates every formula in the workbook instead of only what changed.', 'perf', 'perf-calc');
+    if (R.workbook.concurrentCalcOff) add('low', 'Performance', 'Multi-threaded calculation is turned off in this workbook', 'File > Options > Advanced > Formulas > Enable multi-threaded calculation. Native formulas calculate on one core only.', 'perf', 'perf-calc');
+    if (R.workbook.precisionAsDisplayed) add('info', 'Formulas', 'Precision as displayed is on', 'Stored values are permanently rounded to their displayed format - totals can differ from the ERP by rounding.', 'perf', 'perf-calc');
+    if (p.dataTables) add('low', 'Performance', fmtN(p.dataTables) + ' what-if data table cell(s)', 'Data tables recalculate their whole model once per cell on every calculation. "Automatic except for data tables" is the usual workaround.', 'perf', 'perf-calc');
+    const costly = p.costly.filter((c) => c.flag);
+    if (costly.length) add('low', 'Performance', 'Calculation-heavy functions used in volume', costly.map((c) => c.name + ' (' + fmtN(c.cells) + ' cells)').join(', '), 'perf', 'perf-costly');
+    const heavyW = p.weight.filter((w) => w.flag);
+    if (heavyW.length) {
+      const dr = heavyW.filter((w) => w.drawings >= T.DRAWING_OBJECTS_WARN);
+      if (dr.length) add('medium', 'Performance', dr.length + ' sheet(s) with ' + fmtN(T.DRAWING_OBJECTS_WARN) + '+ shapes / pictures', dr.map((w) => w.sheet + ' (' + fmtN(w.drawings) + ')').join(', ') + '. Usually invisible objects pasted in from a web page or another workbook - they make scrolling, copying and saving slow. Home > Find & Select > Selection Pane shows them.', 'perf', 'perf-weight');
+      const dvw = heavyW.filter((w) => w.validations >= T.DV_RULES_WARN || w.dvFragmented);
+      if (dvw.length) add('low', 'Performance', dvw.length + ' sheet(s) with heavy or fragmented data validation', dvw.map((w) => w.sheet + ' (' + fmtN(w.validations) + ' rules' + (w.dvFragmented ? ', ' + w.dvFragmented + ' fragmented' : '') + ')').join(', '), 'perf', 'perf-weight');
+      const es = heavyW.filter((w) => w.emptyStyled >= T.EMPTY_STYLED_WARN && w.emptyStyled > w.cells);
+      if (es.length) add('low', 'Size', es.length + ' sheet(s) hold more formatted-but-empty cells than data', es.map((w) => w.sheet + ' (' + fmtN(w.emptyStyled) + ' empty vs ' + fmtN(w.cells) + ' with data)').join(', ') + '. Formatting applied to whole rows / columns one cell at a time - it inflates the file and the used range.', 'perf', 'perf-weight');
+    }
+    if (p.refreshOnLoad.connections.length || p.refreshOnLoad.pivots) add('low', 'Performance', 'Refreshes when the file opens: ' + [p.refreshOnLoad.connections.length ? p.refreshOnLoad.connections.length + ' data connection(s)' : '', p.refreshOnLoad.pivots ? p.refreshOnLoad.pivots + ' pivot cache(s)' : ''].filter(Boolean).join(', '), (p.refreshOnLoad.connections.join(', ') || 'Pivot tables') + ' - slow opens and credential prompts. Clean & share can switch this off in a copy.', 'structure', 'st-dataconn');
+    if (p.dupPivotCaches.length) add('low', 'Size', p.dupPivotCaches.length + ' pivot source(s) cached more than once', p.dupPivotCaches.map((d) => d.source + ' x' + d.caches + ' (' + fmtN(Math.round(d.bytes / 1024)) + ' KB)').join(', ') + '. Pivot tables built separately on the same range each keep their own copy of the data.', 'structure', 'st-pivotcache');
     if (p.bloated && p.bloated.length) add('low', 'Performance', p.bloated.length + ' sheet(s) with used-range bloat', p.bloated.map((b) => b.sheet).slice(0, 5).join(', '), 'perf', 'perf-bloat');
     const LK = R.links;
     if (LK.workbooks.length) { const used = LK.workbooks.filter((w) => !w.unused); add('medium', 'Links', LK.workbooks.length + ' linked workbook(s) - check they exist', fmtN(LK.workbooks.reduce((a, w) => a + w.cells, 0)) + ' formula cell(s) depend on them' + (used.length ? ': ' + used.map((w) => '[' + w.index + '] ' + w.path.split(/[\\/]/).pop() + ' (' + fmtN(w.cells) + ')').join(', ') : '') + '. Missing or moved files give stale values, update prompts and #REF!.', 'links', 'lk-workbooks'); }
@@ -2261,6 +2662,17 @@ header.top { position: relative; z-index: 10; }
       if (VL.unfiltered.length) add('low', 'Velixo', VL.unfiltered.length + ' GI() call(s) without a filter', [...new Set(VL.unfiltered.map((x) => x.gi + (x.smart === false ? ' (full refresh)' : '')))].slice(0, 5).join(', ') + ' - loads the whole inquiry on every refresh; slow, and times out in Excel for the web.', 'velixo', 'vx-load');
       if (VL.refreshPrecedents && VL.cascade.length) add('low', 'Velixo', '"Refresh referenced worksheets" is ON and sheets reference other Velixo sheets', [...new Set(VL.cascade.map((x) => x.from + ' -> ' + x.to))].slice(0, 5).join(', ') + ' - refreshing one sheet also refreshes those it reads from.', 'velixo', 'vx-load');
     }
+    if (VL) {
+      const cfdv = VL.elsewhere.filter((x) => x.where !== 'Defined name'), nmv = VL.elsewhere.filter((x) => x.where === 'Defined name');
+      if (cfdv.length) add('medium', 'Velixo', cfdv.length + ' conditional format / validation rule(s) call Velixo functions', [...new Set(cfdv.map((x) => x.where + ' on ' + x.sheet + ' (' + x.fns + ')'))].slice(0, 4).join('; ') + '. These rules are evaluated on redraw and on every cell edit, outside the normal refresh. Put the Velixo function in a cell and point the rule at that cell.', 'velixo', 'vx-elsewhere');
+      if (nmv.length) add('low', 'Velixo', nmv.length + ' defined name(s) contain Velixo functions', nmv.slice(0, 5).map((x) => x.cell + ' (' + x.fns + ')').join(', ') + '. Evaluated wherever the name is used and not visible on any sheet.', 'velixo', 'vx-elsewhere');
+      const big = VL.spills.filter((x) => x.cells >= T.BIG_SPILL_CELLS);
+      if (big.length) add('medium', 'Velixo', big.length + ' Velixo spill range(s) of ' + fmtN(T.BIG_SPILL_CELLS) + '+ cells', big.slice(0, 5).map((x) => x.sheet + '!' + x.cell + ' (' + fmtN(x.rows) + ' x ' + fmtN(x.cols) + ')').join(', ') + '. Filter the inquiry or drop unused columns.', 'velixo', 'vx-load');
+      if (VL.giRepeat.length) add('low', 'Velixo', VL.giRepeat.length + ' Generic Inquiry(ies) loaded by ' + T.GI_REPEAT + '+ separate GI() formulas', VL.giRepeat.slice(0, 5).map((x) => x.gi + ' x' + fmtN(x.calls)).join(', ') + '. One GI() spill read with GILOOKUP / native lookups is lighter than many filtered GI() calls.', 'velixo', 'vx-load');
+      if (VL.legacyArrayCount) add(vx.edition === 'NX' ? 'low' : 'info', 'Velixo', fmtN(VL.legacyArrayCount) + ' Velixo formula(s) entered as legacy array formulas (Ctrl+Shift+Enter)', VL.legacyArrays.slice(0, 5).map((x) => x.sheet + '!' + x.range).join(', ') + '. The range is fixed: extra rows are cut off and unused cells show #N/A. Re-enter as a normal (spilling) formula.', 'velixo', 'vx-load');
+      if (VL.inaccessibleGi.length) add('medium', 'Velixo', VL.inaccessibleGi.length + ' Generic Inquiry(ies) marked inaccessible', [...new Set(VL.inaccessibleGi)].slice(0, 6).join(', ') + ' - the last refresh could not read them (removed, renamed or no access rights).', 'velixo', 'vx-gi');
+    }
+    if ((vx.otherAddins || []).length) add('info', 'Content', vx.otherAddins.length + ' other Office add-in(s) bound to this workbook', vx.otherAddins.map((x) => x.storeId + (x.storeType ? ' (' + x.storeType + ')' : '')).join(', '), 'velixo', 'vx-status');
     const AH = (R.autoHide || []).filter((x) => x.issues.length);
     if (AH.length) add('low', 'Velixo', AH.length + ' auto-hide range(s) with problems', AH.map((x) => x.sheet + ': ' + x.issues[0].text).slice(0, 3).join(' | '), 'velixo', 'vx-autohide');
     // Excel general
@@ -2283,6 +2695,7 @@ header.top { position: relative; z-index: 10; }
     if (pers.length) add('info', 'Privacy', pers.length + ' personal-information field(s) present', pers.map((x) => x.field).join(', '), 'package', 'pkg-personal');
     const notScrub = R.personal.filter((x) => x.removedByScrub === false);
     if (notScrub.length) add('info', 'Privacy', notScrub.length + ' item(s) the scrub does not remove', notScrub.map((x) => x.field).filter((v, i, a) => a.indexOf(v) === i).join(', '), 'package', 'pkg-personal');
+    for (const f of F) f.when = SEC_WHEN[f.sec] || (f.cat === 'Size' ? 'open' : null);
     const order = { high: 0, medium: 1, low: 2, info: 3 };
     return F.sort((a, b) => order[a.sev] - order[b.sev]);
   }
@@ -2887,7 +3300,57 @@ header.top { position: relative; z-index: 10; }
 /* UI layer for the Workbook Inspector. */
 (function () {
   const W = window.WBI;
-  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: false, side: true, menu: false, seq: 0 };
+  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: false, side: true, menu: false, seq: 0,
+    set: { pages: {}, showInfo: false, ticket: 'all', theme: 'system', thr: {} } };
+  // Per-viewer settings, kept in this browser only. The page works without them.
+  const SET_KEY = 'wbi.settings.v1';
+  const THRESHOLDS = [['HEAVY_SHEET_FORMULAS', 'Formulas on one sheet'], ['HEAVY_VELIXO_CELLS', 'Velixo formula cells in the workbook'], ['BIG_SPILL_CELLS', 'Cells in one Velixo spill'],
+    ['GI_REPEAT', 'GI() formulas on one inquiry'], ['DRAWING_OBJECTS_WARN', 'Shapes / pictures on one sheet'], ['EMPTY_STYLED_WARN', 'Formatted empty cells on one sheet']];
+  const T_DEFAULT = Object.fromEntries(THRESHOLDS.map(([k]) => [k, W.analyze.T[k]]));
+  function loadSet() {
+    try {
+      const o = JSON.parse(localStorage.getItem(SET_KEY) || 'null'); if (!o || typeof o !== 'object') return;
+      for (const k of ['deep', 'alwaysOnly', 'issuesOnly', 'advanced']) if (typeof o[k] === 'boolean') S[k] = o[k];
+      if (o.set && typeof o.set === 'object') { const x = o.set; if (x.pages && typeof x.pages === 'object') S.set.pages = x.pages; S.set.showInfo = !!x.showInfo;
+        if (['all', 'hm', 'h'].includes(x.ticket)) S.set.ticket = x.ticket; if (['system', 'light', 'dark'].includes(x.theme)) S.set.theme = x.theme; if (x.thr && typeof x.thr === 'object') S.set.thr = x.thr; }
+    } catch {}
+  }
+  function saveSet() { try { localStorage.setItem(SET_KEY, JSON.stringify({ deep: S.deep, alwaysOnly: S.alwaysOnly, issuesOnly: S.issuesOnly, advanced: S.advanced, set: S.set })); } catch {} }
+  function applySet() {
+    for (const [k] of THRESHOLDS) { const v = +S.set.thr[k]; W.analyze.T[k] = isFinite(v) && v > 0 ? v : T_DEFAULT[k]; }
+    if (S.set.theme === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = S.set.theme;
+  }
+  function rescanAll() { (async () => { for (const f of S.files.slice()) if (f.buffer) await scan(f); })(); }
+  function renderSettings() {
+    const el = $('#settings'); if (el.hidden) return;
+    const sw = (key, on, label, sub) => '<button class="setrow" data-set="' + key + '" aria-pressed="' + (on ? 'true' : 'false') + '"><span>' + e(label) + (sub ? '<small>' + e(sub) + '</small>' : '') + '</span><span class="sw"><i></i></span></button>';
+    el.innerHTML = '<div class="sethead"><h2>Settings</h2><button class="btn sm" id="setReset">Reset to defaults</button><button class="btn sm" id="setClose">Close</button></div><div class="setcols">' +
+      '<div><h3>Pages shown (Advanced view)</h3><div class="setrow"><span>Overview</span><span class="muted small">always on</span></div>' +
+      TABS.filter(([k]) => k !== 'summary').map(([k, l]) => sw('page:' + k, S.set.pages[k] !== false, l)).join('') +
+      '<div class="setnote">A hidden page that has High or Medium findings is still listed on Overview.</div></div>' +
+      '<div><h3>Scan and display</h3>' + sw('issuesOnly', S.issuesOnly, 'Issues only', 'Hide sections and rows with nothing to look at') + sw('deep', S.deep, 'Deep scan', 'Whole-column references and used-range bloat') +
+      sw('alwaysOnly', S.alwaysOnly, 'Always-volatile functions only', 'Skip CELL, INFO, SUMIF and other conditional cases') + sw('showInfo', S.set.showInfo, 'Show Info findings', 'On the Issues page') +
+      '<div class="setrow"><label for="setTheme">Theme</label><select id="setTheme">' + [['system', 'Match system'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => '<option value="' + v + '"' + (S.set.theme === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select></div>' +
+      '<div class="setrow"><label for="setTicket">Ticket summary includes</label><select id="setTicket">' + [['all', 'High, Medium, Low'], ['hm', 'High and Medium'], ['h', 'High only']].map(([v, l]) => '<option value="' + v + '"' + (S.set.ticket === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select></div>' +
+      '<div class="setnote">Changing a scan setting re-scans the loaded workbooks.</div></div>' +
+      '<div><h3>Thresholds</h3>' + THRESHOLDS.map(([k, l]) => '<div class="setrow"><label for="thr-' + k + '">' + e(l) + '</label><input type="number" min="1" step="1" id="thr-' + k + '" data-thr="' + k + '" value="' + W.analyze.T[k] + '"></div>').join('') +
+      '<div class="setnote">Judgement-based values. Changing one re-scans. Settings are remembered in this browser only.</div></div></div>';
+    el.querySelectorAll('[data-set]').forEach((b) => (b.onclick = () => {
+      const k = b.dataset.set; let rescan = false;
+      if (k.startsWith('page:')) { const pg = k.slice(5); S.set.pages[pg] = S.set.pages[pg] === false; }
+      else if (k === 'showInfo') { S.set.showInfo = !S.set.showInfo; for (const f of S.files) if (f.ov) f.ov.sev.info = S.set.showInfo; }
+      else if (k === 'issuesOnly') S.issuesOnly = !S.issuesOnly;
+      else { S[k] = !S[k]; rescan = true; }
+      saveSet(); renderSettings(); if (rescan) rescanAll(); else renderMain();
+    }));
+    el.querySelectorAll('[data-thr]').forEach((i) => (i.onchange = () => { const v = Math.floor(+i.value); if (isFinite(v) && v > 0) S.set.thr[i.dataset.thr] = v; else delete S.set.thr[i.dataset.thr]; saveSet(); applySet(); renderSettings(); rescanAll(); }));
+    $('#setTheme').onchange = (x) => { S.set.theme = x.target.value; saveSet(); applySet(); };
+    $('#setTicket').onchange = (x) => { S.set.ticket = x.target.value; saveSet(); };
+    $('#setClose').onclick = () => toggleSettings(false);
+    $('#setReset').onclick = () => { const scanChanged = !S.deep || S.alwaysOnly || Object.keys(S.set.thr).length > 0; S.set = { pages: {}, showInfo: false, ticket: 'all', theme: 'system', thr: {} }; S.deep = true; S.alwaysOnly = false; S.issuesOnly = true;
+      for (const f of S.files) if (f.ov) f.ov.sev.info = false; saveSet(); applySet(); renderSettings(); if (scanChanged) rescanAll(); else renderMain(); };
+  }
+  function toggleSettings(open) { const el = $('#settings'); el.hidden = open == null ? !el.hidden : !open; $('#gear').classList.toggle('on', !el.hidden); renderSettings(); }
   const $ = (q, el = document) => el.querySelector(q);
   const e = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const n = (x) => Number(x || 0).toLocaleString();
@@ -2916,7 +3379,7 @@ header.top { position: relative; z-index: 10; }
     item.status = 'scanning'; item.progress = 0; renderSide();
     if (S.sel === item.id) renderMain();
     try {
-      item.report = await W.analyze.analyzeWorkbook(item.buffer.slice(0), item.name, {
+      item.report = await W.analyze.analyzeWorkbook(item.buffer, item.name, {
         deep: S.deep, alwaysOnly: S.alwaysOnly,
         onProgress: (msg, frac) => { item.progress = frac; item.msg = msg; const bar = document.querySelector('[data-prog="' + item.id + '"]'); if (bar) bar.style.width = Math.round(frac * 100) + '%'; },
       });
@@ -3047,7 +3510,7 @@ header.top { position: relative; z-index: 10; }
       renderTop();
     }));
     $('#aRescan').onclick = () => scan(f);
-    $('#hidePass').onchange = (x) => { S.issuesOnly = x.target.checked; renderMain(); };
+    $('#hidePass').onchange = (x) => { S.issuesOnly = x.target.checked; saveSet(); renderSettings(); renderMain(); };
   }
   function renderBody() {
     const m = $('#main'); const f = current();
@@ -3076,7 +3539,7 @@ header.top { position: relative; z-index: 10; }
     const tabBadge = (k) => { const c = counts[k]; if (!c) return ''; const cls = c.high ? 'high' : c.medium ? 'medium' : ''; const num = k === 'overview' ? c.high || c.medium || 0 : (c.high || 0) + (c.medium || 0); return num ? '<span class="count ' + cls + '">' + num + '</span>' : ''; };
     if (!TABS.some(([k]) => k === f.tab)) f.tab = tabOf(f.tab) || 'summary';
     const withToc = !NOTOC.includes(f.tab);
-    m.innerHTML = head(TABS.map(([k, l]) => '<button data-tab="' + k + '" class="' + (f.tab === k ? 'on' : '') + (S.issuesOnly && !NOTOC.includes(k) && !(counts[k] && (counts[k].all - (counts[k].info || 0)) > 0) ? ' dim' : '') + '">' + l + tabBadge(k) + '</button>').join(''), withToc);
+    m.innerHTML = head(TABS.filter(([k]) => k === 'summary' || k === f.tab || S.set.pages[k] !== false).map(([k, l]) => '<button data-tab="' + k + '" class="' + (f.tab === k ? 'on' : '') + (S.issuesOnly && !NOTOC.includes(k) && !(counts[k] && (counts[k].all - (counts[k].info || 0)) > 0) ? ' dim' : '') + '">' + l + tabBadge(k) + '</button>').join(''), withToc);
     tabClick();
     const body = $('#tabbody');
     CUR = { R, f };
@@ -3116,7 +3579,7 @@ header.top { position: relative; z-index: 10; }
       '<div class="grid3">' +
       [['Excel level', 'Sheets and visibility, used ranges, formulas, error values, defined names, tables, pivots, styles, links, protection, document properties and package size.'],
        ['Velixo', 'NX or Classic edition, add-in binding, connections, workbook GUID, last refresh, engine options, Velixo function usage and hidden state sheets.'],
-       ['Performance', 'Volatile functions (including via defined names and inside ERP calls), whole-column refs, used-range bloat, CF volume and style bloat.'],
+       ['Performance', 'Volatile functions (via defined names, inside ERP calls, and Velixo cells that read a volatile cell), whole-column refs by the function they feed, calculation-heavy functions, used-range bloat, CF volume and style bloat.'],
        ['Clean & share', 'Make a share copy, strip Velixo, remove personal info or clean bloat (used range, unused styles, broken names). The copy is validated and re-scanned automatically.']].map(([t, d]) => '<div class="card"><h3>' + t + '</h3><div class="muted">' + d + '</div></div>').join('') +
       '</div><p class="muted small" style="margin-top:18px">Supported: .xlsx .xlsm .xltx .xltm (full), .xlsb (package level only). Password-protected files must be decrypted first.</p></div></div>';
   }
@@ -3126,7 +3589,7 @@ header.top { position: relative; z-index: 10; }
   let CUR = { R: null, f: null };
   const DATA_SECS = new Set(['vx-status', 'vx-functions', 'vx-options', 'vx-gi', 'vx-sample', 'vx-state', 'vx-hidden', 'fx-usage', 'fx-sheets', 'st-sheets', 'st-names', 'st-tables', 'st-dvlists', 'st-pivotcache',
     'st-dataconn', 'st-settings', 'st-styles', 'pkg-props', 'pkg-personal', 'pkg-parts', 'lk-pivots', 'st-macros', 'st-objects']);
-  const SEC_TITLES = { 'perf-inside': 'Volatile calls inside Velixo / add-in functions', 'perf-volatile': 'Volatile functions' };
+  const SEC_TITLES = { 'perf-inside': 'Volatile calls inside Velixo / add-in functions', 'perf-volatile': 'Volatile functions', 'perf-volprec': 'Velixo cells that read a volatile cell' };
   const SEV_ORDER = { high: 0, medium: 1, low: 2, info: 3 };
   const unent = (s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&middot;/g, '·').trim();
   function unwrapCard(html) {
@@ -3172,11 +3635,12 @@ header.top { position: relative; z-index: 10; }
     return parts.map((x) => x.trim()).filter(Boolean);
   }
   function tabOverview(R, f) {
-    const ov = f.ov || (f.ov = { sev: { high: true, medium: true, low: true, info: false }, group: 'severity', open: {}, closed: {} });
+    const ov = f.ov || (f.ov = { sev: { high: true, medium: true, low: true, info: !!S.set.showInfo }, group: 'severity', open: {}, closed: {} });
     const c = { high: 0, medium: 0, low: 0, info: 0 }; for (const x of R.findings) c[x.sev]++;
-    const shown = R.findings.filter((x) => ov.sev[x.sev]);
+    const shown = R.findings.filter((x) => ov.sev[x.sev] && (!ov.when || (ov.when === 'other' ? !x.when : x.when === ov.when)));
     let h = '<div class="ov-strip">' + ['high', 'medium', 'low', 'info'].map((s) => '<span class="ov-pill' + (ov.sev[s] ? '' : ' off') + '" data-ovsev="' + s + '" title="Show / hide ' + SEVC[s][0] + '"><span class="dot" style="background:' + SEVC[s][1] + '"></span><span class="num">' + c[s] + '</span>' + SEVC[s][0] + '</span>').join('') +
-      '<span class="spacer"></span><span class="muted small">Group by</span><div class="seg"><button data-ovgroup="severity" class="' + (ov.group === 'severity' ? 'on' : '') + '">Severity</button><button data-ovgroup="area" class="' + (ov.group === 'area' ? 'on' : '') + '">Area</button></div></div>';
+      '<span class="spacer"></span><span class="muted small">Group by</span><div class="seg"><button data-ovgroup="severity" class="' + (ov.group === 'severity' ? 'on' : '') + '">Severity</button><button data-ovgroup="area" class="' + (ov.group === 'area' ? 'on' : '') + '">Area</button><button data-ovgroup="cause" class="' + (ov.group === 'cause' ? 'on' : '') + '">Root cause</button></div></div>';
+    h += '<div class="ov-strip" style="margin-top:0"><span class="muted small">Costs time when</span>' + [['', 'Any'], ...Object.entries((R.causes || { labels: {} }).labels), ['other', 'Not about speed']].map(([k, l]) => '<span class="ov-pill sm' + ((ov.when || '') === k ? ' sel' : '') + '" data-ovwhen="' + k + '">' + e(l) + '</span>').join('') + '</div>';
     const idx = new Map(R.findings.map((x, i) => [x, i]));
     const row = (x) => {
       const i = idx.get(x), open = !!ov.open[i], b = bulletsOf(x.detail);
@@ -3187,6 +3651,18 @@ header.top { position: relative; z-index: 10; }
     };
     if (!shown.length) h += '<div class="banner good">' + (R.findings.length ? 'Nothing at the selected levels.' : 'Nothing found. No volatile functions, performance risks or errors detected.') + '</div>';
     else if (ov.group === 'severity') h += '<div class="ov-list">' + shown.map(row).join('') + '</div>';
+    else if (ov.group === 'cause') {
+      const CL = (R.causes || { list: [] }).list, byC = new Map();
+      for (const x of shown) { const k = x.cause || ''; if (!byC.has(k)) byC.set(k, []); byC.get(k).push(x); }
+      for (const c of CL) {
+        const fs = byC.get(c.id); if (!fs) continue;
+        const tk = '[' + c.sev.toUpperCase() + '] ' + plural(c.title) + '\n' + plural(c.evidence) + '\nFix: ' + c.fix + '\n' + fs.map((x) => '- ' + plural(x.title)).join('\n');
+        h += '<div class="rc"><div class="rc-h"><span class="chip ' + c.sev + '">' + c.sev.toUpperCase() + '</span><b>' + e(c.title) + '</b><span class="muted small">' + (fs.length > 1 ? 'merges ' + fs.length + ' findings' : '1 finding') + '</span><button class="btn sm" data-copy="' + e(tk) + '">Copy for ticket</button></div>' +
+          '<div class="rc-3"><div><h4>What we found</h4>' + e(plural(c.evidence)) + '</div><div><h4>Why it matters</h4>' + e(c.why || '') + '</div><div><h4>How to fix</h4>' + e(c.fix) + '</div></div><div class="ov-list">' + fs.map(row).join('') + '</div></div>';
+      }
+      const rest = byC.get('') || [];
+      if (rest.length) h += '<div class="rc"><div class="rc-h"><b>Other findings</b><span class="muted small">not tied to a slowness cause</span></div><div class="ov-list">' + rest.map(row).join('') + '</div></div>';
+    }
     else {
       const groups = new Map();
       for (const x of shown) { const a = AREA[x.cat] || x.cat; if (!groups.has(a)) groups.set(a, []); groups.get(a).push(x); }
@@ -3203,6 +3679,7 @@ header.top { position: relative; z-index: 10; }
   function bindOverview(f, body) {
     body.querySelectorAll('[data-ovsev]').forEach((b) => (b.onclick = () => { f.ov.sev[b.dataset.ovsev] = !f.ov.sev[b.dataset.ovsev]; renderMain(); }));
     body.querySelectorAll('[data-ovgroup]').forEach((b) => (b.onclick = () => { f.ov.group = b.dataset.ovgroup; renderMain(); }));
+    body.querySelectorAll('[data-ovwhen]').forEach((b) => (b.onclick = () => { f.ov.when = b.dataset.ovwhen; renderMain(); }));
     body.querySelectorAll('[data-ovgrp]').forEach((b) => (b.onclick = () => { const g = b.dataset.ovgrp; f.ov.closed[g] = !f.ov.closed[g]; renderMain(); }));
     body.querySelectorAll('[data-ovrow]').forEach((r) => (r.onclick = (x) => { if (x.target.closest('[data-goto]')) return; const i = r.dataset.ovrow; f.ov.open[i] = !f.ov.open[i]; r.classList.toggle('open'); }));
   }
@@ -3228,6 +3705,7 @@ header.top { position: relative; z-index: 10; }
       h += SEC('vx-status', '<div class="card"><h3>Status</h3><dl class="kv">' +
         kvRow('Velixo enabled', vx.isVelixo ? 'Yes' : 'No') + kvRow('Edition', vx.edition) + kvRow('ERP(s)', Object.entries(vx.erps || {}).map(([k, v]) => k + (v ? ' (' + n(v) + ' cells)' : ' (connection only)')).join(', ')) + kvRow('Signals', vx.signals.join('; ')) +
         kvRow('Add-in store id', vx.addin && vx.addin.storeId) + kvRow('Velixo NX version', nxVersion(vx) || (vx.addin ? 'Not saved in this file - only shown when a sheet has =VELIXOVERSION()' : '')) +
+        kvRow('Other Office add-ins bound', (vx.otherAddins || []).map((x) => x.storeId + (x.storeType ? ' (' + x.storeType + ')' : '')).join(', ')) +
         kvRow('Store manifest version', vx.addin && (vx.addin.version + ' (store ' + vx.addin.store + (vx.addin.storeType ? ', ' + vx.addin.storeType : '') + ')')) +
         kvRow('Task pane', vx.taskpaneState ? (vx.taskpaneState.visible ? 'Opens with the workbook' : 'Bound, closed') + ' (' + vx.taskpaneState.dock + ', ' + vx.taskpaneState.width + 'px)' : vx.taskpane ? 'Bound' : vx.addin ? 'No' : '') +
         kvRow('Workbook GUID (NX state)', vx.workbookId) + kvRow('VelixoWorkbookId (defined name)', vx.workbookIdName) +
@@ -3268,12 +3746,12 @@ header.top { position: relative; z-index: 10; }
       { label: 'NX state', sort: (r) => String(r.nx), html: (r) => yn(r.nx === undefined ? null : r.nx) }, { label: 'Settings sheet', sort: (r) => String(r.sheet), html: (r) => yn(r.sheet) },
       { label: 'Last changed', sort: (r) => r.modified || '', html: (r) => e(dt(r.modified)) }, { label: '', sort: (r) => (r.mismatch ? 1 : 0), html: (r) => (r.mismatch ? '<span class="chip warn">Differs</span>' : optIssue(r) ? '<span class="chip low">On</span>' : '') }],
       vx.options || [], { search: false, issue: optIssue }), (vx.options || []).some(optIssue));
-    const giIssue = (g) => g.orphaned || !g.usedInFormulas;
+    const giIssue = (g) => g.orphaned || !g.usedInFormulas || g.inaccessible;
     h += SEC('vx-gi', title('Generic Inquiry options', 'smart refresh, key fields - persisted add-in state + VelixoReportsGIOptions sheet') + table('vgi', [
       { label: 'Connection', sort: (r) => r.connectionName || r.connectionId, html: (r) => e(r.connectionName || r.connectionId) + (r.orphaned ? ' <span class="chip warn">connection removed</span>' : '') },
       { label: 'Generic Inquiry', sort: (r) => r.gi, html: (r) => e(r.gi) + (r.usedInFormulas ? '' : ' <span class="chip info">not in formulas</span>') },
       { label: 'Smart refresh', sort: (r) => String(r.smartRefresh), html: (r) => yn(r.smartRefresh) }, { label: 'Key fields', sort: (r) => r.keyFields || r.sheetKeyFields || '', html: (r) => e(r.keyFields != null ? r.keyFields : r.sheetKeyFields) || '<span class="muted">none</span>' },
-      { label: 'Load all, filter locally', sort: (r) => String(r.loadAllFilterLocally), html: (r) => yn(r.loadAllFilterLocally) }, { label: 'Inaccessible', sort: (r) => String(r.inaccessible), html: (r) => yn(r.inaccessible) },
+      { label: 'Load all, filter locally', sort: (r) => String(r.loadAllFilterLocally), html: (r) => yn(r.loadAllFilterLocally) }, { label: 'Inaccessible', sort: (r) => String(r.inaccessible), html: (r) => (r.inaccessible ? '<span class="chip bad">Yes</span>' : yn(r.inaccessible)) },
       { key: 'sheetMode', label: 'Sheet mode' }, { label: 'Last changed', sort: (r) => r.lastModifiedOn || '', html: (r) => e(dt(r.lastModifiedOn)) }], vx.giOptions || [], { search: false, issue: giIssue }), (vx.giOptions || []).some(giIssue));
     if (S.issuesOnly) return h;
     h += SEC('vx-sample', title('Velixo formula sample') + table('vsample', [
@@ -3300,12 +3778,57 @@ header.top { position: relative; z-index: 10; }
       opts: { removeHiddenSheets: true, removeAddin: true, flatten: true, flattenVelixoOnly: false } },
   };
   const CAT_LABEL = { velixo: 'Velixo', native: 'Excel', addin: 'Other add-in', udf: 'Custom (VBA)', lambda: 'LAMBDA' };
+  function causesBlock(R, f) {
+    const CZ = R.causes; if (!CZ) return '';
+    const col = { high: 'var(--bad)', medium: 'var(--warn)', low: 'var(--accent)' };
+    const cnt = { high: 0, medium: 0, low: 0 }; for (const x of R.findings) if (cnt[x.sev] != null) cnt[x.sev]++;
+    const speed = new Set(['recalc', 'calc', 'refresh', 'open', 'ui']);
+    const other = R.findings.filter((x) => x.sev !== 'info' && !speed.has(x.when)).length;
+    const rows = CZ.list.map((c, i) => {
+      const w = Math.max(18, (c.sev === 'high' ? 100 : c.sev === 'medium' ? 60 : 30) - i * 4);
+      return '<button class="cz-row" data-goto="' + e(tabOf(c.tab)) + '" data-target="' + e(c.sec) + '" title="Go to the detail"><span class="cz-n" style="background:' + col[c.sev] + '">' + (i + 1) + '</span>' +
+        '<span><span class="cz-t">' + e(c.title) + '</span><div class="cz-e">' + e(plural(c.evidence)) + '</div><div><b>Fix:</b> ' + e(c.fix) + '</div></span>' +
+        '<span><div class="cz-bar"><i style="width:' + w + '%;background:' + col[c.sev] + '"></i></div><div class="cz-m">' + e(plural(c.metric)) + ' &middot; ' + e(CZ.labels[c.when].toLowerCase()) + '</div></span></button>';
+    }).join('');
+    const hiddenTabs = TABS.filter(([k]) => k !== 'summary' && S.set.pages[k] === false).map(([k, l]) => { const fs = R.findings.filter((x) => (tabOf(x.tab) === k || k === 'overview') && (x.sev === 'high' || x.sev === 'medium')); return fs.length ? { k, l, n: fs.length } : null; }).filter(Boolean);
+    const mxW = Math.max(1, ...Object.values(CZ.byWhen));
+    const VL = R.velixoLoad || { spills: [], giRepeat: [] }, VP = R.volPrec || { cells: 0 };
+    const fCells = R.sheets.reduce((a, s) => a + (s.stats ? s.stats.formulaCells : 0), 0), maxDraw = Math.max(0, ...R.perf.weight.map((w) => w.drawings));
+    const nums = [[fCells, 'formula cells'], [R.velixo.cells, 'Velixo formula cells'], [VP.cells, 'Velixo cells reading a volatile cell'], [VL.spills[0] ? VL.spills[0].cells : 0, 'cells in the largest Velixo spill'],
+      [VL.giRepeat[0] ? VL.giRepeat[0].calls : 0, 'GI() formulas on one inquiry'], [maxDraw, 'shapes on one sheet']].filter(([v], i) => v > 0 || i < 2).slice(0, 6);
+    return '<div class="cz"><div class="card"><h3>Most likely causes of slowness <span class="sub">ranked by severity, then cells affected</span>' +
+      '<span style="margin-left:auto;display:flex;gap:4px">' + ['high', 'medium', 'low'].filter((k) => cnt[k]).map((k) => '<span class="chip ' + k + '">' + cnt[k] + ' ' + k + '</span>').join('') + '</span></h3>' +
+      (rows || '<div class="banner good" style="margin:0">Nothing found that would explain a slow workbook.</div>') +
+      (other ? '<div class="muted small" style="margin-top:10px">' + n(other) + ' further finding' + (other === 1 ? ' is' : 's are') + ' not about speed (links, snapshot, formulas, content). <span class="ov-go" data-goto="overview">Show all findings &rarr;</span></div>' : '') +
+      (hiddenTabs.length ? '<div class="banner warn" style="margin:10px 0 0">Hidden pages with High / Medium findings: ' + hiddenTabs.map((x) => '<span class="ov-go" data-goto="' + x.k + '">' + e(x.l) + ' (' + x.n + ')</span>').join(', ') + '</div>' : '') + '</div>' +
+      '<div class="cz-side"><div class="card"><h3>When does it hurt? <span class="sub">findings by moment</span></h3>' +
+      Object.entries(CZ.byWhen).map(([k, v]) => '<div class="cz-when"><span class="lb">' + e(CZ.labels[k]) + '</span><div class="bar"><i style="width:' + (v ? Math.max(6, (v / mxW) * 100) : 0) + '%' + (k === 'recalc' && v ? ';background:var(--bad)' : '') + '"></i></div><b>' + v + '</b></div>').join('') + '</div>' +
+      '<div class="card"><h3>Key numbers</h3><div class="cz-nums">' + nums.map(([v, l]) => '<div class="cz-num"><div class="v">' + n(v) + '</div><div class="l">' + e(l) + '</div></div>').join('') + '</div></div></div></div>';
+  }
+  function traceLanes(R) {
+    const VP = R.volPrec, ins = R.volatile.insideAddin;
+    if (!VP || (!VP.groups.length && !ins.length)) return '';
+    const arr = '<span class="arr" aria-hidden="true">&rarr;</span>';
+    const hop = (cls, ttl, code, sub) => '<div class="hop ' + cls + '"><b>' + e(ttl) + '</b>' + (code ? '<code title="' + e(code) + '">' + e(code) + '</code>' : '') + (sub ? '<small>' + e(sub) + '</small>' : '') + '</div>';
+    const lanes = [];
+    for (const g of VP.groups.slice(0, 8)) {
+      const parts = [];
+      for (const h of g.path) { parts.push(hop(h.source ? 'src' : '', h.cell, h.formula, h.source ? 'volatile source - fix here' : h.shared ? 'filled formula, shown as in its first cell' : 'recalculates with it')); if (h.viaName) parts.push(hop('nm', h.viaName, '', 'defined name')); }
+      parts.push(hop('vx', g.sheet + '!' + g.range + '  -  ' + n(g.cells) + ' Velixo cell' + (g.cells === 1 ? '' : 's'), g.formula, g.fns));
+      lanes.push(parts.join(arr));
+    }
+    for (const f of ins.slice(0, Math.max(0, 10 - lanes.length))) lanes.push(hop('src', f.fn + '()' + (f.via ? ' via ' + f.via : ''), '', 'typed inside the call') + arr + hop('vx', f.sheet + '!' + f.cell + '  -  ' + n(f.cells || 1) + ' Velixo cell' + ((f.cells || 1) === 1 ? '' : 's'), f.formula, f.inside));
+    const more = VP.groups.length + ins.length - lanes.length;
+    return '<div class="lanes">' + lanes.map((l, i) => '<div class="lane"><span class="lb">Route ' + (i + 1) + '</span>' + l + '</div>').join('') + '</div>' +
+      '<div class="lane-key"><span><i style="border:2px solid var(--bad);background:var(--bad-soft)"></i>Volatile source</span><span><i style="border:1px solid var(--border);background:var(--bg-2)"></i>Formula in between</span><span><i style="border:2px solid var(--purple);background:var(--purple-soft)"></i>Velixo cells affected</span>' +
+      (more > 0 ? '<span>' + n(more) + ' more route(s) in the table above</span>' : '') + '</div>';
+  }
   function summaryView(R, f) {
     const vx = R.velixo, ws = R.sheets.filter((s) => s.stats);
     const st = { visible: 0, hidden: 0, veryHidden: 0 }; for (const s of R.sheets) st[s.state] = (st[s.state] || 0) + 1;
     const fCells = ws.reduce((a, s) => a + s.stats.formulaCells, 0);
     const c = R.props.core, a = R.props.app;
-    let h = '<div class="cols2"><div class="card"><h3>Workbook</h3><dl class="kv">' +
+    let h = (S.advanced ? causesBlock(R, f) : '') + '<div class="cols2"><div class="card"><h3>Workbook</h3><dl class="kv">' +
       kvRow('File size', kb(R.file.size) + ' (' + kb(R.package.total) + ' uncompressed)') +
       kvRow('Sheets', n(R.sheets.length) + ' (' + [n(st.visible) + ' visible', st.hidden ? n(st.hidden) + ' hidden' : '', st.veryHidden ? n(st.veryHidden) + ' very hidden' : ''].filter(Boolean).join(', ') + ')' + (vx.sheets.length ? ' - ' + vx.sheets.length + ' Velixo system' : '')) +
       kvRow('Formula cells', n(fCells)) +
@@ -3418,7 +3941,8 @@ header.top { position: relative; z-index: 10; }
     const VL = R.velixoLoad, AH = R.autoHide || [];
     if (!VL) return '';
     let h = '';
-    const loadIssue = VL.heavy.length || VL.totalVelixo >= W.analyze.T.HEAVY_VELIXO_CELLS || VL.unfiltered.length || (VL.refreshPrecedents && VL.cascade.length);
+    const TT = W.analyze.T, bigSpill = VL.spills.filter((x) => x.cells >= TT.BIG_SPILL_CELLS);
+    const loadIssue = VL.heavy.length || VL.totalVelixo >= W.analyze.T.HEAVY_VELIXO_CELLS || VL.unfiltered.length || (VL.refreshPrecedents && VL.cascade.length) || bigSpill.length || VL.giRepeat.length || VL.legacyArrayCount;
     h += SEC('vx-load', title('Load & refresh', 'what makes refreshes slow or run out of memory') +
       '<div class="card tight"><dl class="kv">' + kvRow('Velixo formula cells', n(VL.totalVelixo) + (VL.totalVelixo >= W.analyze.T.HEAVY_VELIXO_CELLS ? ' - very high' : '')) +
       kvRow('Sheets with ' + n(W.analyze.T.HEAVY_SHEET_FORMULAS) + '+ formulas', VL.heavy.length ? VL.heavy.map((x) => x.sheet + ' (' + n(x.formulas) + ', ' + n(x.velixo) + ' Velixo)').join(', ') : 'None') +
@@ -3426,8 +3950,17 @@ header.top { position: relative; z-index: 10; }
       (VL.unfiltered.length ? '<div class="card tight"><h3>GI() calls without a filter</h3>' + table('vxgi', [{ key: 'sheet', label: 'Sheet' }, { key: 'cell', label: 'Cell' }, { key: 'gi', label: 'Generic Inquiry' }, { label: 'Rows returned (last refresh)', sort: (r) => r.rows || 0, html: (r) => (r.rows == null ? '<span class="muted">-</span>' : n(r.rows)), num: true },
         { label: 'Smart refresh', sort: (r) => String(r.smart), html: (r) => (r.smart == null ? '<span class="muted">-</span>' : r.smart ? 'Yes' : '<span class="chip warn">No</span>') }, { key: 'formula', label: 'Formula', cls: 'formula' }], VL.unfiltered, { search: false }) +
         '<div class="muted small" style="margin-top:6px">Every refresh loads the whole inquiry. Add a GIFILTER() as the 3rd argument; in Excel for the web unfiltered GIs hit the 60-second function limit.</div></div>' : '') +
+      (VL.spills.length && (!S.issuesOnly || bigSpill.length) ? '<div class="card tight"><h3>Largest Velixo spill ranges <span class="sub">size at last save</span></h3>' + table('vxspill', [{ key: 'sheet', label: 'Sheet' }, { key: 'cell', label: 'Cell' }, { key: 'range', label: 'Spills to' }, { key: 'rows', label: 'Rows', num: true }, { key: 'cols', label: 'Columns', num: true },
+        { label: 'Cells', sort: (r) => r.cells, html: (r) => n(r.cells) + (r.cells >= TT.BIG_SPILL_CELLS ? ' <span class="chip warn">large</span>' : ''), num: true }], VL.spills, { search: false, sort: 5, issue: (r) => r.cells >= TT.BIG_SPILL_CELLS }) + '</div>' : '') +
+      (VL.giRepeat.length ? '<div class="card tight"><h3>Generic Inquiries loaded by many separate GI() formulas</h3>' + table('vxgirep', [{ key: 'gi', label: 'Generic Inquiry' }, { key: 'calls', label: 'GI() cells', num: true }], VL.giRepeat, { search: false }) +
+        '<div class="muted small" style="margin-top:6px">Each differently-filtered GI() is its own request. One GI() spill on a data sheet, read with GILOOKUP or native lookups, is usually lighter.</div></div>' : '') +
+      (VL.legacyArrayCount ? '<div class="card tight"><h3>Velixo formulas entered as legacy array formulas (Ctrl+Shift+Enter)</h3>' + table('vxcse', [{ key: 'sheet', label: 'Sheet' }, { key: 'cell', label: 'Cell' }, { key: 'range', label: 'Fixed range' }, { key: 'formula', label: 'Formula', cls: 'formula' }], VL.legacyArrays, { search: false, total: VL.legacyArrayCount }) +
+        '<div class="muted small" style="margin-top:6px">The result range is fixed when the formula is entered: extra rows are cut off and unused cells show #N/A. Re-enter as a normal formula so it spills.</div></div>' : '') +
       (VL.cascade.length && (!S.issuesOnly || VL.refreshPrecedents) ? '<div class="card tight"><h3>Sheets that read other Velixo sheets</h3>' + table('vxcas', [{ key: 'from', label: 'Sheet' }, { key: 'to', label: 'Reads from (has Velixo cells)' }], VL.cascade, { search: false, maxh: 300 }) +
         '<div class="muted small" style="margin-top:6px">' + (VL.refreshPrecedents ? '"Refresh Current Sheet also refreshes referenced worksheets" is <b>on</b>, so refreshing a sheet on the left also refreshes the sheets it reads from. Turn it off in Options if that isn\'t needed.' : 'The option to also refresh referenced worksheets is off, so these don\'t cascade.') + '</div></div>' : ''), loadIssue);
+    h += SEC('vx-elsewhere', title('Velixo functions outside cells', 'conditional formatting, data validation and defined names') +
+      (!VL.elsewhere.length ? '<div class="banner good">Velixo functions are only used in cell formulas.</div>' : table('vxelse', [{ key: 'where', label: 'Where' }, { key: 'sheet', label: 'Sheet / scope' }, { key: 'cell', label: 'Range / name' }, { key: 'fns', label: 'Velixo function(s)' }, { key: 'formula', label: 'Formula', cls: 'formula' }], VL.elsewhere, { search: false }) +
+        '<div class="muted small" style="margin-top:6px">Conditional formatting and validation formulas are evaluated on redraw and on edits, not as part of a Velixo refresh. Keep the Velixo function in a cell and reference that cell.</div>'), VL.elsewhere.length > 0);
     const ahIssue = (r) => r.issues.length > 0;
     h += SEC('vx-autohide', title('Auto-hide zero rows / columns', 'VelixoAutoHideZeroRows / VelixoAutoHideZeroColumns names') +
       (!AH.length ? '<div class="muted">No auto-hide ranges.</div>' : table('vxah', [{ key: 'sheet', label: 'Sheet' }, { key: 'kind', label: 'Hides' }, { key: 'ref', label: 'Range', cls: 'formula' },
@@ -3478,6 +4011,24 @@ header.top { position: relative; z-index: 10; }
       return { ...f, loc, n: g.length, cellsTotal: cells, ord: order[f.area] ?? 9 };
     }).sort((a, b) => a.ord - b.ord);
   }
+  function heatSection(R) {
+    const TT = W.analyze.T, VP = R.volPrec || { groups: [] }, gi = R.functions.find((x) => x.name === 'GI');
+    const volBy = {}; for (const g of VP.groups) volBy[g.sheet] = (volBy[g.sheet] || 0) + g.cells;
+    const wholeBy = {}; for (const w of R.wholeRefs || []) wholeBy[w.sheet] = (wholeBy[w.sheet] || 0) + 1;
+    const cols = [['Formula cells', TT.HEAVY_SHEET_FORMULAS], ['Velixo cells', TT.HEAVY_SHEET_FORMULAS], ['Velixo cells on a volatile', 1], ['Whole-column formulas', 1], ['GI() cells', TT.GI_REPEAT], ['Shapes / pictures', TT.DRAWING_OBJECTS_WARN],
+      ['CF rules', TT.CF_RULES_WARN], ['Formatted empty cells', TT.EMPTY_STYLED_WARN], ['XML size (KB)', 10240]];
+    let hot = false;
+    const rows = R.sheets.filter((x) => x.stats).map((x) => {
+      const st = x.stats, lab = x.state !== 'visible' ? x.name + ' [' + x.state + ']' : x.name;
+      const vals = [st.formulaCells, st.velixoCells, volBy[x.name] || 0, wholeBy[lab] || 0, gi && gi.bySheet[lab] ? gi.bySheet[lab].cells : 0, ((x.objects || {}).shapes || 0) + ((x.objects || {}).pictures || 0), st.cfRules, st.emptyCells, Math.round((x.partSize || 0) / 1024)];
+      return '<tr><td>' + e(x.name) + (x.state !== 'visible' ? ' <span class="muted small" style="font-weight:400">' + e(x.state) + '</span>' : '') + '</td>' + vals.map((v, i) => {
+        const r = v / cols[i][1], lv = !v || r < 0.5 ? 0 : r < 1 ? 1 : r < 3 ? 2 : 3; if (lv >= 2) hot = true;
+        return '<td class="' + (lv ? 'h' + lv : '') + '">' + n(v) + '</td>'; }).join('') + '</tr>';
+    });
+    if (!rows.length) return '';
+    return SEC('perf-heat', '<div class="tbl-wrap" style="border:0;max-height:none"><table class="heat"><thead><tr><th>Sheet</th>' + cols.map(([l, t]) => '<th title="Threshold ' + n(t) + '">' + e(l) + '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>' +
+      '<div class="heat-key"><span>Shaded against each column\'s threshold (hover a heading):</span><i style="background:var(--bg-2);border:1px solid var(--border)"></i>below<i style="background:var(--accent-soft)"></i>approaching<i style="background:#7C9CEB"></i>at threshold<i style="background:#1F3F8F"></i>well over</div>', hot, { title: 'Where the weight is', line: 'one row per sheet' });
+  }
   function tabPerf(R) {
     const V = R.volatile, P = R.perf;
     let h = '';
@@ -3492,21 +4043,37 @@ header.top { position: relative; z-index: 10; }
           { key: 'cellsTotal', label: 'Cells', num: true }, { label: 'Inside add-in', sort: (r) => r.inside || '', html: (r) => (r.inside ? '<span class="chip purple">' + e(r.inside) + '</span>' : '') }, { key: 'formula', label: 'Formula', cls: 'formula' }],
           groupVolatile(V.findings), { filter: { label: 'Severity', values: [['Always', 'Always'], ['Conditional', 'Conditional']], test: (r, v) => r.sev === v } }), true);
     }
+    const VP = R.volPrec;
+    if (VP && VP.cells) h += SEC('perf-volprec', '<div class="banner purple"><b>' + n(VP.cells) + ' live Velixo cell(s) take an argument from a volatile cell.</b> The cell they read recalculates on every calculation (directly, or because it is built from one that does), so the Velixo function is re-evaluated every time as well.</div>' +
+      table('volprec', [{ key: 'sheet', label: 'Sheet' }, { key: 'range', label: 'Cells' , tip: 'First and last cell sharing this formula' }, { key: 'cells', label: 'Count', num: true }, { key: 'fns', label: 'Velixo function(s)' }, { key: 'source', label: 'Volatile source' }, { key: 'formula', label: 'Formula', cls: 'formula' }], VP.groups, { sort: 2 }) +
+      '<div class="muted small" style="margin-top:6px">' + n(VP.volatileCells) + ' cell(s) in the workbook are volatile or depend on a volatile cell. Cells with the same formula are grouped.' + (VP.truncated ? ' Dependency tracing stopped at ' + n(W.analyze.T.DEP_CELL_CAP) + ' formula cells - there may be more.' : '') + '</div>' + traceLanes(R), true);
+    h += heatSection(R);
     const risks = [];
     const risk = (id, ttl, bad, inner) => risks.push(SEC(id, inner, !!bad, { title: ttl }));
-    risk('perf-calc', 'Calculation mode', P.calcManual || P.fullCalcOnLoad,
+    risk('perf-calc', 'Calculation mode', P.calcManual || P.fullCalcOnLoad || R.workbook.forceFullCalc || R.workbook.concurrentCalcOff || P.dataTables,
       '<div>Mode: <b>' + e(R.workbook.calcMode) + '</b>' + (P.calcManual ? ' - often a sign someone turned calculation off because the workbook was slow; displayed values may be stale.' : '') + '</div>' +
-      (P.fullCalcOnLoad ? '<div style="margin-top:4px"><b>Full calculation on load</b> is set: every recipient of a snapshot or distributed copy pays a full recalc on open. Recalculate, save, and it normally clears.</div>' : ''));
+      (P.fullCalcOnLoad ? '<div style="margin-top:4px"><b>Full calculation on load</b> is set: every recipient of a snapshot or distributed copy pays a full recalc on open. Recalculate, save, and it normally clears.</div>' : '') +
+      (R.workbook.forceFullCalc ? '<div style="margin-top:4px"><b>Force full calculation</b> is set: every recalculation recalculates every formula, not only what changed.</div>' : '') +
+      (R.workbook.concurrentCalcOff ? '<div style="margin-top:4px"><b>Multi-threaded calculation is off</b> for this workbook: native formulas calculate on one core.</div>' : '') +
+      (R.workbook.precisionAsDisplayed ? '<div style="margin-top:4px"><b>Precision as displayed</b> is on: stored values are rounded to their displayed format.</div>' : '') +
+      (P.dataTables ? '<div style="margin-top:4px"><b>' + n(P.dataTables) + ' what-if data table cell(s)</b>: each recalculates the model once per calculation.</div>' : ''));
     if (P.deep) {
       risk('perf-whole', 'Whole-column / whole-row references', P.wholeRefs.length, P.wholeRefs.length ?
-        '<div class="muted" style="margin-bottom:8px">' + n(P.wholeRefs.length) + ' formula(s) covering ~' + n(P.wholeRefs.reduce((a, w) => a + w.cells, 0)) + ' cell(s). Modern SUMIFS/COUNTIFS handle these well; SUMPRODUCT, VLOOKUP and array formulas scan the whole column every time.</div>' +
-        table('whole', [{ key: 'sheet', label: 'Sheet' }, { key: 'cell', label: 'Cell' }, { key: 'refs', label: 'Reference' }, { key: 'cells', label: 'Cells', num: true }, { key: 'formula', label: 'Formula', cls: 'formula' }], P.wholeRefs) : 'None.');
+        '<div class="muted" style="margin-bottom:8px">' + n(P.wholeRefs.length) + ' formula(s) covering ~' + n(P.wholeRefs.reduce((a, w) => a + w.cells, 0)) + ' cell(s). What matters is the function the range is used in: Velixo / add-in functions receive the whole range, SUMPRODUCT and array formulas evaluate every row, SUMIFS / COUNTIFS / lookups stop at the used range.</div>' +
+        table('whole', [{ key: 'sheet', label: 'Sheet' }, { key: 'cell', label: 'Cell' }, { key: 'refs', label: 'Reference' }, { key: 'usedIn', label: 'Used in' },
+          { label: 'Impact', sort: (r) => ({ addin: 0, array: 1 }[r.cls] ?? 2), html: (r) => (r.cls === 'addin' ? '<span class="chip bad">Passed to add-in</span>' : r.cls === 'array' ? '<span class="chip warn">Array-evaluated</span>' : '<span class="chip info">Low</span>') },
+          { key: 'cells', label: 'Cells', num: true }, { key: 'formula', label: 'Formula', cls: 'formula' }], P.wholeRefs, { sort: 4, dir: 1, filter: { label: 'Impact', values: [['addin', 'Passed to add-in'], ['array', 'Array-evaluated'], ['native', 'Low']], test: (r, v) => (r.cls || 'native') === v } }) : 'None.');
       risk('perf-bloat', 'Used-range bloat', P.bloated.length, P.bloated.length ?
         '<div class="muted" style="margin-bottom:8px">Ctrl+End lands past the data. Clean &amp; share &gt; Clean bloat trims it, or delete the empty rows/columns below and right of the data and save.</div>' +
         table('bloat', [{ key: 'sheet', label: 'Sheet' }, { label: 'Used to', sort: (r) => r.maxRow * 1e5 + r.maxCol, html: (r) => e(colL(r.maxCol) + n(r.maxRow)) }, { label: 'Data ends', sort: (r) => r.lastDataRow, html: (r) => e(colL(r.lastDataCol) + n(r.lastDataRow)) }, { key: 'phantom', label: 'Empty cells in range', num: true }], P.bloated, { search: false, sort: 3 }) : 'None.');
     }
     risk('perf-cf', 'Conditional formatting volume', P.cf.flagged, P.cf.total ? '<div class="muted" style="margin-bottom:8px">' + n(P.cf.total) + ' rule(s), ' + n(P.cf.big) + ' covering effectively a whole column, ' + n(P.cf.fragmented) + ' fragmented range(s). Rules are re-evaluated on redraw, so this shows up as slow scrolling.</div>' +
       table('cf', [{ key: 'sheet', label: 'Sheet' }, { key: 'rules', label: 'Rules', num: true }, { key: 'biggest', label: 'Largest range (cells)', num: true }, { key: 'areas', label: 'Largest range fragments', num: true }, { key: 'fragmented', label: 'Fragmented ranges', num: true }], P.cf.sheets, { search: false }) : 'No conditional formatting.');
+    risk('perf-costly', 'Calculation-heavy functions', P.costly.some((c) => c.flag), P.costly.length ? table('costly', [{ key: 'name', label: 'Function' }, { key: 'cells', label: 'Cells', num: true }, { key: 'calls', label: 'Calls', num: true },
+      { label: 'Sheets', sort: (r) => r.sheets.join(', '), html: (r) => e(r.sheets.join(', ')), cls: 'wrapcell' }, { key: 'note', label: 'Why it costs', cls: 'wrapcell' }], P.costly, { search: false, sort: 1, issue: (r) => r.flag }) : 'None of the usual calculation-heavy functions are used.');
+    risk('perf-weight', 'Sheet weight', P.weight.some((w) => w.flag), table('weight', [{ key: 'sheet', label: 'Sheet' }, { key: 'drawings', label: 'Shapes / pictures', num: true, tip: 'Drawing objects on the sheet. Hundreds usually means invisible objects pasted in from elsewhere' },
+      { key: 'validations', label: 'Validation rules', num: true }, { key: 'dvFragmented', label: 'Fragmented validations', num: true, tip: 'Validation rules whose range is split into ' + W.analyze.T.DV_FRAGMENT_AREAS + '+ pieces' },
+      { key: 'emptyStyled', label: 'Formatted empty cells', num: true, tip: 'Cells stored in the file with formatting but no value or formula' }, { key: 'cells', label: 'Cells with data', num: true }], P.weight, { search: false, sort: 1, issue: (r) => r.flag }));
     risk('perf-styles', 'Styles', P.styleBloat, n(R.styles.cellXfs) + ' cell formats (' + n(R.styles.usedXfs) + ' in use), ' + n(R.styles.cellStyles) + ' named styles, ' + n(R.styles.fonts) + ' fonts, ' + n(R.styles.dxfs) + ' differential formats.' + (P.styleBloat ? ' Style bloat usually comes from copying sheets between workbooks. Clean &amp; share &gt; Clean bloat removes the unused ones.' : ''));
     if (P.bigParts.length || P.bigPivots.length || P.bigMedia.length) risk('perf-heavy', 'Heavy content', true, [...P.bigParts.map((p) => e(p.name) + ' - ' + kb(p.size)), ...P.bigPivots.map((p) => 'Pivot cache ' + e(p.part) + ' - ' + kb(p.recordsSize) + ' of records'), ...P.bigMedia.map((p) => 'Image ' + e(p.name) + ' - ' + kb(p.size))].join('<br>'));
     const lims = P.limits || [];
@@ -3597,7 +4164,7 @@ header.top { position: relative; z-index: 10; }
       { issue: nameIssue, filter: { label: 'Flag', values: [['broken', '#REF!'], ['volatile', 'Volatile'], ['hidden', 'Hidden'], ['external', 'External'], ['velixo', 'Velixo']], test: (r, v) => (v === 'volatile' ? r.volatile.length : !!r[v]) } }), R.definedNames.some(nameIssue));
     h += SEC('st-tables', title('Tables &amp; pivot tables') + '<div class="cols2"><div>' + title('Tables') + table('tables', [{ key: 'name', label: 'Table' }, { key: 'sheet', label: 'Sheet' }, { key: 'ref', label: 'Range' }], R.tables, { search: false, maxh: 300 }) + '</div>' +
       '<div>' + title('Pivot tables') + table('pivots', [{ key: 'name', label: 'Pivot' }, { key: 'sheet', label: 'Sheet' }, { key: 'ref', label: 'Location' }, { key: 'cacheId', label: 'Cache' }], R.pivots, { search: false, maxh: 300 }) + '</div></div>', false);
-    if (R.pivotCaches.length) h += SEC('st-pivotcache', title('Pivot caches') + table('pcache', [{ key: 'part', label: 'Part' }, { key: 'source', label: 'Source' }, { key: 'recordCount', label: 'Records' }, { label: 'Saved records', sort: (r) => r.recordsSize, html: (r) => kb(r.recordsSize), num: true }, { label: 'Refresh on load', sort: (r) => String(r.refreshOnLoad), html: (r) => (r.refreshOnLoad ? 'Yes' : '') }], R.pivotCaches, { search: false, issue: (r) => R.perf.bigPivots.includes(r) }), R.perf.bigPivots.length > 0);
+    if (R.pivotCaches.length) h += SEC('st-pivotcache', title('Pivot caches') + table('pcache', [{ key: 'part', label: 'Part' }, { key: 'source', label: 'Source' }, { key: 'recordCount', label: 'Records' }, { label: 'Saved records', sort: (r) => r.recordsSize, html: (r) => kb(r.recordsSize), num: true }, { label: 'Refresh on load', sort: (r) => String(r.refreshOnLoad), html: (r) => (r.refreshOnLoad ? 'Yes' : '') }], R.pivotCaches, { search: false, issue: (r) => R.perf.bigPivots.includes(r) || r.refreshOnLoad }), R.perf.bigPivots.length > 0 || R.perf.refreshOnLoad.pivots > 0 || R.perf.dupPivotCaches.length > 0);
     h += SEC('st-dataconn', '<div class="card"><h3>Data connections &amp; Power Query</h3>' + (R.dataConnections.length || R.powerQuery ? (R.powerQuery ? '<div class="chip low" style="margin-bottom:8px">Power Query present</div>' : '') +
       R.dataConnections.map((c) => '<div><b>' + e(c.name) + '</b> <span class="muted">' + e(c.description || '') + (c.refreshOnLoad ? ' &middot; refresh on load' : '') + '</span></div>').join('') : '<span class="muted">None.</span>') +
       (R.dataModel ? '<div style="margin-top:8px"><b>Power Pivot data model</b> ' + kb(R.dataModel.size) + (R.dataModel.size >= W.analyze.T.DATA_MODEL_WARN ? ' <span class="chip warn">large</span>' : '') + '<div class="muted small">Stored inside the file, so every snapshot and distributed Excel copy carries it.</div></div>' : '') +
@@ -3661,8 +4228,9 @@ header.top { position: relative; z-index: 10; }
   function tabClean(R, f) {
     const P = W.clean.PRESETS, o = cleanOpts(f), vx = R.velixo;
     if (R.package.isBinary) return '<div class="banner bad">Binary .xlsb workbooks cannot be cleaned. Re-save as .xlsx first.</div>';
+    const suggestSlim = (R.perf.bloated || []).length > 0 || R.perf.styleBloat || R.definedNames.some((x) => x.broken && !x.builtIn) || R.perf.weight.some((w) => w.emptyStyled >= W.analyze.T.EMPTY_STYLED_WARN && w.emptyStyled > w.cells);
     let h = '<div class="banner">A new file is always created and downloaded. The original is never touched. Every edited XML part is validated before the copy is written, and the copy is re-scanned so you can confirm the result below.</div>';
-    h += '<div class="presets">' + Object.entries(P).map(([k, p]) => '<div class="preset' + (!f.clean.custom && f.clean.preset === k ? ' on' : '') + '" data-preset="' + k + '"><b>' + e(p.label) + '</b><span>' + e(p.result) + '</span><div class="muted small" style="margin-top:6px">Saves as <code>' + e(baseName(f.name) + p.suffix + ext(f.name)) + '</code></div></div>').join('') +
+    h += title('1 &middot; Pick what you need') + '<div class="presets">' + Object.entries(P).map(([k, p]) => '<div class="preset' + (!f.clean.custom && f.clean.preset === k ? ' on' : '') + '" data-preset="' + k + '"><b>' + e(p.label) + (k === 'slim' && suggestSlim ? ' <span class="chip warn">Suggested for this file</span>' : '') + '</b><span>' + e(p.result) + '</span><div class="muted small" style="margin-top:6px">Saves as <code>' + e(baseName(f.name) + p.suffix + ext(f.name)) + '</code></div></div>').join('') +
       '<div class="preset' + (f.clean.custom ? ' on' : '') + '" data-preset="custom"><b>Custom</b><span>Pick the individual operations below.</span></div></div>';
     h += '<div class="card"><h3>Operations</h3>' + OPT_GROUPS.map(([g, keys]) => '<div class="section-title" style="margin-top:6px">' + g + '</div><div class="opts">' + keys.map((k) => { const [l, d] = OPT_LABELS[k]; return '<label><input type="checkbox" data-opt="' + k + '"' + (o[k] ? ' checked' : '') + '><span>' + e(l) + '<small>' + e(d) + '</small></span></label>'; }).join('') + '</div>').join('') +
       (o.flatten ? '<div style="margin-top:12px"><b>Flatten which formulas?</b><div class="opts" style="margin-top:6px"><label><input type="radio" name="scope" value="all"' + (f.clean.scope !== 'velixo' ? ' checked' : '') + '><span>All formulas<small>Fully static - no formulas at all.</small></span></label>' +
@@ -3682,7 +4250,7 @@ header.top { position: relative; z-index: 10; }
     if (o.noConnRefreshOnLoad) { const c = R.dataConnections.filter((x) => x.refreshOnLoad).length; willDo.push(c ? 'Turn off refresh-on-open for ' + c + ' data connection(s)' + (R.powerQuery ? ' (Power Query included)' : '') : 'Connection refresh-on-open - none set (query tables checked too)'); }
     if (o.noLinkUpdatePrompt) willDo.push(R.externalLinks.length ? 'Stop the update-links prompt for ' + R.externalLinks.length + ' linked workbook(s)' + (R.workbook.updateLinks === 'never' ? ' - already set' : '') : 'Stop the update-links prompt - no linked workbooks (setting still applied)');
     const notScrub = R.personal.filter((x) => x.removedByScrub === false);
-    h += '<div class="card"><h3>What will happen</h3>' + (willDo.length ? '<ul style="margin:0;padding-left:18px">' + willDo.map((x) => '<li>' + e(x) + '</li>').join('') + '</ul>' : '<div class="muted">No operations selected.</div>') +
+    h += '<div class="card"><h3>2 &middot; What will happen to this file</h3>' + (willDo.length ? '<ul style="margin:0;padding-left:18px">' + willDo.map((x) => '<li>' + e(x) + '</li>').join('') + '</ul>' : '<div class="muted">No operations selected.</div>') +
       (o.scrubPersonal && notScrub.length ? '<div class="banner" style="margin-top:10px">Kept: ' + e([...new Set(notScrub.map((x) => x.field))].join(', ')) + '.</div>' : '') +
       (o.flatten && Object.keys(vx.errors).length ? '<div class="banner warn" style="margin-top:10px">' + Object.entries(vx.errors).map(([k, v]) => n(v) + ' x ' + e(k)).join(', ') + ' cached in Velixo cells will be baked into the copy as static error values. Refresh in Excel with Velixo signed in first if that is not intended.</div>' : '') +
       (newFnWarning(R, o)) +
@@ -3692,8 +4260,8 @@ header.top { position: relative; z-index: 10; }
     if (r) {
       if (r.error) h += '<div class="banner bad"><b>Could not create the copy.</b> The original is untouched.<br><pre style="white-space:pre-wrap">' + e(r.error) + '</pre></div>';
       else {
-        h += '<div class="card"><h3><span class="chip good">Done</span>' + e(r.name) + ' <span class="sub">' + kb(r.bytes.length) + '</span></h3>' +
-          '<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn" id="reDl">Download again</button><button class="btn" id="openOut">Open copy in inspector</button></div>' + compareTable(R, r.report) +
+        h += '<div class="card"><h3>3 &middot; Result, re-scanned <span class="chip good">Done</span>' + e(r.name) + ' <span class="sub">' + kb(r.bytes.length) + '</span></h3>' +
+          '<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn" id="reDl">Download again</button><button class="btn" id="openOut">Open copy in inspector</button></div>' + compareTable(R, r.report) + findingDiff(R, r.report) +
           '<details class="json" style="margin-top:12px"><summary>Operation log</summary><pre>' + e(JSON.stringify(r.log, null, 2)) + '</pre></details></div>';
       }
     }
@@ -3725,6 +4293,17 @@ header.top { position: relative; z-index: 10; }
   function compareTable(A, B) {
     const a = summaryOf(A), b = summaryOf(B);
     return '<table class="t cmp"><thead><tr><th>Check</th><th>Original</th><th>Cleaned copy</th></tr></thead><tbody>' + Object.keys(a).map((k) => '<tr><td>' + e(k) + '</td><td class="b">' + e(a[k]) + '</td><td class="a">' + e(b[k]) + '</td></tr>').join('') + '</tbody></table>';
+  }
+  function findingDiff(A, B) {
+    const key = (x) => x.cat + '|' + (x.sec || '') + '|' + x.title.replace(/[\d,.]+/g, '#');
+    const a = A.findings.filter((x) => x.sev !== 'info'), b = B.findings.filter((x) => x.sev !== 'info');
+    const bk = new Set(b.map(key)), ak = new Set(a.map(key));
+    const gone = a.filter((x) => !bk.has(key(x))), still = b.filter((x) => ak.has(key(x))), added = b.filter((x) => !ak.has(key(x)));
+    const li = (l) => '<ul style="margin:4px 0 0;padding-left:18px">' + l.map((x) => '<li>' + sevChip(x.sev) + ' ' + e(plural(x.title)) + '</li>').join('') + '</ul>';
+    return '<div style="margin-top:12px"><b>Findings in the copy</b> <span class="chip good">' + gone.length + ' resolved</span> <span class="chip warn">' + still.length + ' still present</span>' + (added.length ? ' <span class="chip bad">' + added.length + ' new</span>' : '') +
+      (still.length ? '<details class="json" style="margin-top:8px" open><summary>Still present</summary><div style="padding:6px 10px">' + li(still) + '</div></details>' : '') +
+      (added.length ? '<details class="json" open><summary>New in the copy</summary><div style="padding:6px 10px">' + li(added) + '</div></details>' : '') +
+      (gone.length ? '<details class="json"><summary>Resolved</summary><div style="padding:6px 10px">' + li(gone) + '</div></details>' : '') + '</div>';
   }
   function bindClean(f) {
     document.querySelectorAll('[data-preset]').forEach((el) => el.addEventListener('click', () => {
@@ -3777,7 +4356,8 @@ header.top { position: relative; z-index: 10; }
     const P = R.perf;
     if (P.calcManual) out.push(row('Performance risks', 'Calculation mode', '', '', '', 'Review', '', '', '', '', 'Set to "' + R.workbook.calcMode + '"', ''));
     if (P.fullCalcOnLoad) out.push(row('Performance risks', 'Full calculation on load', '', '', '', 'Review', '', '', '', '', 'Workbook fully recalculates on every open', ''));
-    for (const w of P.wholeRefs || []) out.push(row('Performance risks', 'Whole-column / whole-row reference', w.sheet, w.cell, w.refs, 'Review', '', w.cells, '', '', 'Scans the entire column or row on every evaluation', w.formula));
+    for (const g of (R.volPrec || {}).groups || []) out.push(row('Volatile functions', 'Velixo cell reads a volatile cell', g.sheet, g.cell, g.fns, 'Always', '', g.cells, '', '', 'Volatile source: ' + g.source, g.formula));
+    for (const w of P.wholeRefs || []) out.push(row('Performance risks', 'Whole-column / whole-row reference', w.sheet, w.cell, w.refs, 'Review', '', w.cells, '', w.cls === 'addin' ? w.usedIn : '', w.cls === 'addin' ? 'Whole range passed to an add-in function' : w.cls === 'array' ? 'Array-evaluated over the whole column or row (' + w.usedIn + ')' : 'Whole-column reference in ' + (w.usedIn || 'a native formula'), w.formula));
     for (const b of P.bloated || []) out.push(row('Performance risks', 'Used range bloat', b.sheet, '', '', 'Review', '', b.phantom, '', '', 'Used to ' + colL(b.maxCol) + b.maxRow + '; data ends ' + colL(b.lastDataCol) + b.lastDataRow, ''));
     for (const l of P.externalLinks) out.push(row('Performance risks', 'External workbook link', '', '', '', 'Review', '', '', '', '', l.target, ''));
     for (const c of P.cf.sheets) out.push(row('Performance risks', 'Conditional formatting volume', c.sheet, '', '', P.cf.flagged ? 'Review' : '', c.rules, c.biggest, '', '', c.rules + ' rule(s); largest covers ' + c.biggest + ' cell(s) in ' + c.areas + ' fragment(s)', ''));
@@ -3818,7 +4398,8 @@ header.top { position: relative; z-index: 10; }
     } else L.push('Velixo: not a Velixo workbook');
     L.push('');
     L.push('Results:');
-    const res = R.findings.filter((x) => x.sev !== 'info');
+    const tk = { all: ['high', 'medium', 'low'], hm: ['high', 'medium'], h: ['high'] }[S.set.ticket] || ['high', 'medium', 'low'];
+    const res = R.findings.filter((x) => tk.includes(x.sev));
     if (!res.length) L.push('No issues found');
     const tag = (sev) => '[' + sev.toUpperCase() + '] ';
     let distDone = false;
@@ -3854,7 +4435,12 @@ header.top { position: relative; z-index: 10; }
       fname = name + '.zip'; zipped = true;
     }
     const dl = await dlCap;
-    if (!dl) { toast('Downloads are not available in this view - open the artifact in claude.ai'); return; }
+    if (!dl) {
+      // Not running as a claude.ai artifact (e.g. the page saved as a local .html file): use a normal browser download.
+      try { const u = URL.createObjectURL(new Blob([bytes], { type: type || 'application/octet-stream' })); const a = document.createElement('a'); a.href = u; a.download = fname; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); toast('Saved ' + fname); }
+      catch { toast('Downloads are not available in this view'); }
+      return;
+    }
     try {
       await dl.save({ filename: fname, data: new Blob([bytes], { type }) });
       toast(zipped ? 'Saved ' + fname + ' - extract it to get ' + name : 'Saved ' + fname);
@@ -3890,8 +4476,12 @@ header.top { position: relative; z-index: 10; }
       if (rm) { const id = +rm.dataset.rm; S.files = S.files.filter((f) => f.id !== id); if (S.sel === id) S.sel = S.files[0]?.id || null; renderSide(); renderMain(); return; }
       const it = x.target.closest('[data-id]'); if (it) { S.sel = +it.dataset.id; renderSide(); renderMain(); $('#main').scrollTop = 0; }
     });
+    loadSet(); applySet();
     applyMode();
-    document.querySelectorAll('#view button').forEach((b) => b.addEventListener('click', () => { S.advanced = b.dataset.v === 'advanced'; applyMode(); renderSide(); renderMain(); }));
+    document.querySelectorAll('#view button').forEach((b) => b.addEventListener('click', () => { S.advanced = b.dataset.v === 'advanced'; saveSet(); applyMode(); renderSide(); renderMain(); }));
+    $('#gear').addEventListener('click', (x) => { x.stopPropagation(); toggleSettings(); });
+    $('#settings').addEventListener('click', (x) => x.stopPropagation());
+    document.addEventListener('click', (x) => { if (!$('#settings').hidden && !x.target.closest('#settings') && !x.target.closest('#gear')) toggleSettings(false); });
     $('#sideToggle').addEventListener('click', () => { S.side = !S.side; renderSide(); });
     $('#railAdd').addEventListener('click', () => input.click());
     document.addEventListener('click', (x) => { if (S.menu && !x.target.closest('.menuwrap')) { S.menu = false; renderTop(); } });
@@ -3902,5 +4492,6 @@ header.top { position: relative; z-index: 10; }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
+
 
 </body></html>
