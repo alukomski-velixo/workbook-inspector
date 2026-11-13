@@ -321,7 +321,7 @@ header.top { position: relative; z-index: 10; }
     <div class="brand"><div class="mark">V</div><div><h1>Workbook Inspector</h1><small>Excel &amp; Velixo workbook checks</small></div></div>
     <div class="spacer"></div>
     <div class="topgroup topactions" id="topActions" hidden></div>
-    <div class="topgroup"><span class="lbl">View</span><div class="seg" id="view" title="Simple: workbook details and quick clean. Advanced: full inspector"><button data-v="simple">Simple</button><button data-v="advanced">Advanced</button></div></div>
+    <div class="topgroup"><span class="lbl">View</span><div class="seg" id="view" title="File analysis: full inspector. File details only: workbook details and quick clean"><button data-v="advanced">File analysis</button><button data-v="simple">File details only</button></div></div>
   </header>
   <aside class="side">
     <div class="sidehead"><span>Workbooks</span><button class="sidetoggle" id="sideToggle" title="Hide panel">&laquo;</button></div>
@@ -2887,7 +2887,7 @@ header.top { position: relative; z-index: 10; }
 /* UI layer for the Workbook Inspector. */
 (function () {
   const W = window.WBI;
-  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: false, side: true, menu: false, seq: 0 };
+  const S = { files: [], sel: null, deep: true, alwaysOnly: false, issuesOnly: true, advanced: true, side: true, menu: false, seq: 0 };
   const $ = (q, el = document) => el.querySelector(q);
   const e = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const n = (x) => Number(x || 0).toLocaleString();
@@ -3110,7 +3110,7 @@ header.top { position: relative; z-index: 10; }
   }
   function emptyState() {
     if (!S.advanced) return '<div class="wrap"><div class="empty"><h2>Drop a workbook to inspect it</h2><p>See the workbook\'s details and the functions it uses, or make a copy without Velixo or without formulas. Everything runs in this page - the file is never uploaded and the original is never changed.</p>' +
-      '<p class="muted small">Switch <b>View</b> to <b>Advanced</b> (top right) for the full inspector: issues, Velixo detail, performance, links, structure and every clean option.</p></div></div>';
+      '<p class="muted small">Switch <b>View</b> to <b>File analysis</b> (top right) for the full inspector: issues, Velixo detail, performance, links, structure and every clean option.</p></div></div>';
     return '<div class="wrap"><div class="empty"><h2>Drop a workbook to inspect it</h2>' +
       '<p>Everything runs in your browser. The file is read in memory and never uploaded, and the original is never modified. Drop several files to compare them or export a combined summary.</p>' +
       '<div class="grid3">' +
